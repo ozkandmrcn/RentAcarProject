@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +31,7 @@ public class RentalController {
 	}
 	
 	@PostMapping("/addrental")
-	public Result addRental(Rental rental) {
+	public Result addRental(@RequestBody Rental rental) {
 		return this.rentalService.add(rental);
 	}
 
@@ -41,8 +42,12 @@ public class RentalController {
 	
 	@GetMapping("/getrentalbyid")
 	public  DataResult<Rental> getRentalById(int id) {
+		
 		return this.rentalService.getById(id);
 	}
+	
+	
+	
 	
 	
 	@DeleteMapping("/removerental")
@@ -51,7 +56,7 @@ public class RentalController {
 	}
 	
 	@PostMapping("/updaterental")
-	public Result updateRentAl(Rental rental) {
+	public Result updateRentAl(@RequestBody Rental rental) {
 		return this.rentalService.update(rental);
 	}
 	

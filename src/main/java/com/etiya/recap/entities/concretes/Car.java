@@ -25,12 +25,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","rentals"})
 public class Car {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "car_id")
+	@Column(name = "id")
 	private int id;
 	
 	@OneToOne
@@ -55,6 +55,8 @@ public class Car {
 	
 	@OneToMany(mappedBy = "car")
 	private List<Rental> rentals;
+	
+	
 	
 
 }

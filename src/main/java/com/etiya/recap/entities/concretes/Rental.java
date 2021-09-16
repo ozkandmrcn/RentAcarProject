@@ -1,5 +1,7 @@
 package com.etiya.recap.entities.concretes;
 
+
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +26,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class Rental {
+	
+	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,10 +37,13 @@ public class Rental {
 	private int Id;
 	
 	@OneToOne
+
 	@JoinColumn(name ="car_id")
 	private Car car;
 	
+	
 	@OneToOne
+	
 	@JoinColumn(name ="customer_id")
 	private Customer customer;
 	
@@ -43,7 +52,7 @@ public class Rental {
 	private Date rentDate;
 	
 	@Column(name = "return_date")
-	private Date returnDate;
+	private Date  returnDate;
 	
 	
 	
