@@ -2,12 +2,17 @@ package com.etiya.recap.api.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import com.etiya.recap.business.abstracts.BrandService;
 import com.etiya.recap.core.utilities.results.DataResult;
@@ -29,9 +34,11 @@ public class BrandController {
 
 
 	@PostMapping("/addbrand")
-	public Result addBrand(CreateBrandRequest createBrandRequest){
-		return this.brandService.add(createBrandRequest);
+	public ResponseEntity<?> addBrand(@Valid @RequestBody CreateBrandRequest createBrandRequest){
+		return ResponseEntity.ok(this.brandService.add(createBrandRequest)) ;
 	}
+	
+	
 	
 	
 	@GetMapping("/getallbrands")
@@ -45,13 +52,15 @@ public class BrandController {
 	}
 	
 	@DeleteMapping("/removebrand")
-	public Result removeBrand(Brand brand) {
-		return this.brandService.delete(brand);
+	public Result removeBrand(CreateBrandRequest createBrandRequest) {
+		return this.brandService.delete(createBrandRequest);
 	}
 	
 	@PostMapping("/updatebrand")
-	public Result updateBrand(Brand brand) {
-		return this.brandService.update(brand);
+	public ResponseEntity<?> updateBrand(@Valid @RequestBody CreateBrandRequest createBrandRequest) {
+		return ResponseEntity.ok(this.brandService.update(createBrandRequest)) ;
 	}
+	
+	
 
 }

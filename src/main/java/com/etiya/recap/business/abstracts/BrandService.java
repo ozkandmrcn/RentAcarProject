@@ -15,7 +15,7 @@ public interface BrandService {
 	
 	DataResult<Brand> getById(int id);
 	
-	Result delete(Brand brand);
+	Result delete(CreateBrandRequest createBrandRequest);
 	
-	Result update(Brand brand);
+	Result update(CreateBrandRequest createBrandRequest);
 }

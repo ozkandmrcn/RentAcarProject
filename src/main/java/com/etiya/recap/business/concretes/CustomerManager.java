@@ -57,13 +57,30 @@ public class CustomerManager implements CustomerService {
 	}
 
 	@Override
-	public Result delete(Customer customer) {
+	public Result delete(CreateCustomerRequest createCustomerRequest) {
+		
+		Customer customer=new Customer();
+		customer.setCustomerId(createCustomerRequest.getId());
+		
+		
 		this.customerDao.delete(customer);
 		return new SuccessResult(true,  Messages.Delete);
 	}
 
 	@Override
-	public Result update(Customer customer) {
+	public Result update(CreateCustomerRequest createCustomerRequest) {
+		
+		User user=new User();
+		user.setUserId(createCustomerRequest.getUserId());
+		
+		
+		Customer customer=new Customer();
+		
+		customer.setCustomerId(createCustomerRequest.getId());
+		customer.setCompanyName(createCustomerRequest.getCompanyName());
+		customer.setUser(user);
+		
+		
 		this.customerDao.save(customer);
 		return new SuccessResult(true, Messages.Update);
 	}

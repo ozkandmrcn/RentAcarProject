@@ -51,13 +51,26 @@ public class UserManager implements UserService {
 	}
 
 	@Override
-	public Result delete(User user) {
+	public Result delete(CreateUserRequest createUserRequest) {
+		
+		User user=new User();
+		user.setUserId(createUserRequest.getId());
+		
+		
 		this.userDao.delete(user);
 		return new SuccessResult(true , " Kullanıcı silindi.");
 	}
 
 	@Override
-	public Result update(User user) {
+	public Result update(CreateUserRequest createUserRequest) {
+		
+		
+		User user=new User();
+		user.setUserId(createUserRequest.getId());
+		user.setFirstName(createUserRequest.getFirstName());
+		user.setLastName(createUserRequest.getLastName());
+		user.setEmail(createUserRequest.getEmail());
+		user.setPassword(createUserRequest.getPassword());
 		
 		this.userDao.save(user);
 		return new SuccessResult(true , "Kullanıcı güncelendi.");

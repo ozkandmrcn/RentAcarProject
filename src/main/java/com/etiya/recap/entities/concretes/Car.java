@@ -25,7 +25,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","rentals"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","rentals","carImages"})
 public class Car {
 	
 	@Id
@@ -58,6 +58,10 @@ public class Car {
 	
 	@OneToMany(mappedBy = "car")
 	private List<Rental> rentals;
+	
+
+	@OneToMany(mappedBy = "car")
+	private List<CarImages>carImages;
 	
 	
 	

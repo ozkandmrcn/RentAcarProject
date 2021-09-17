@@ -15,8 +15,8 @@ public interface RentalService {
 	
 	DataResult<Rental> getById(int id);
 	
-	Result delete(Rental rental);
+	Result delete(CreateRentalRequest createRentalRequest);
 	
-	Result update(Rental rental);
+	Result update(CreateRentalRequest createRentalRequest);
 
 }

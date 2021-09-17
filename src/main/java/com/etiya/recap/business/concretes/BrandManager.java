@@ -50,13 +50,23 @@ public class BrandManager implements BrandService{
 	}
 
 	@Override
-	public Result delete(Brand brand) {
+	public Result delete(CreateBrandRequest createBrandRequest) {
+		
+		Brand brand=new Brand();
+		brand.setBrandId(createBrandRequest.getId());
+		
+		
 		this.brandDao.delete(brand);
 		return new SuccessResult(true, Messages.Delete);
 	}
 
 	@Override
-	public Result update(Brand brand) {
+	public Result update(CreateBrandRequest createBrandRequest) {
+		
+		Brand brand=new Brand();
+		brand.setBrandId(createBrandRequest.getId());
+		brand.setBrandName(createBrandRequest.getBrandName());
+		
 		this.brandDao.save(brand);
 		return new SuccessResult(true, Messages.Update);
 		

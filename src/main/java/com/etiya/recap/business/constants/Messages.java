@@ -8,6 +8,7 @@ public class Messages {
      public static final String GetAll = "Listeleme işlemi gerçekleşti.";
      public static final String GetById = "Id ye göre listelendi.";
      public static final String ErrorIfCarIsNotAvailable =  "Malesef kiralama yapılamaz. Araç şuan müşteride";
+     public static final String ErrorIfCarHasMoreImages =  " Bu Araba ya  5'ten fazla resim eklenemez.";
      
     
      

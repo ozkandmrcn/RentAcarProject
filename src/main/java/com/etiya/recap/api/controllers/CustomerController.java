@@ -2,10 +2,14 @@ package com.etiya.recap.api.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,8 +34,8 @@ public class CustomerController {
 	
 	
 	@PostMapping("/addcustomer")
-	public Result addCustomer(CreateCustomerRequest createCustomerRequest) {
-		return this.customerService.add(createCustomerRequest);
+	public ResponseEntity<?> addCustomer(@Valid @RequestBody CreateCustomerRequest createCustomerRequest) {
+		return ResponseEntity.ok(this.customerService.add(createCustomerRequest));
 	}
 
 	@GetMapping("/getallcustomers")
@@ -46,13 +50,13 @@ public class CustomerController {
 	
 	
 	@DeleteMapping("/removecustomer")
-	public Result removeCar(Customer customer) {
-		return this.customerService.delete(customer);
+	public Result removeCar(CreateCustomerRequest createCustomerRequest) {
+		return this.customerService.delete(createCustomerRequest);
 	}
 	
 	@PostMapping("/updatecustomer")
-	public Result updateCar(Customer customer) {
-		return this.customerService.update(customer);
+	public ResponseEntity<?> updateCar(@Valid @RequestBody CreateCustomerRequest createCustomerRequest) {
+		return ResponseEntity.ok(this.customerService.update(createCustomerRequest));
 	}
 	
 	

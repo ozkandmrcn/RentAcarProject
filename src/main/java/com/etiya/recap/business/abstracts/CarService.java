@@ -17,9 +17,9 @@ public interface CarService {
 	
 	DataResult<Car> getById(int id);
 	
-	Result delete(Car car);
+	Result delete(CreateCarRequest createCarRequest);
 	
-	Result update(Car car);
+	Result update(CreateCarRequest createCarRequest);
 	
 	DataResult<List<CarDetailDto>> getAllCarsWithDetail();
 }

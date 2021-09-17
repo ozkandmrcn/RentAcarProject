@@ -15,9 +15,9 @@ public interface UserService {
 	
 	DataResult<User> getById(int id);
 	
-	Result delete(User user);
+	Result delete(CreateUserRequest createUserRequest);
 	
-	Result update(User user);
+	Result update(CreateUserRequest createUserRequest);
 	
 	
 

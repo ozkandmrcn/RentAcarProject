@@ -2,10 +2,14 @@ package com.etiya.recap.api.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,8 +31,8 @@ public class ColorController {
 	}
 
 	@PostMapping("/addcolor")
-	public Result addColor( CreateColorRequest createColorRequest) {
-		return this.colorService.add(createColorRequest);
+	public ResponseEntity<?> addColor(@Valid @RequestBody CreateColorRequest createColorRequest) {
+		return ResponseEntity.ok(this.colorService.add(createColorRequest)) ;
 	}
 
 	@GetMapping("/getallcolors")
@@ -42,13 +46,13 @@ public class ColorController {
 	}
 	
 	@DeleteMapping("/removecolor")
-	public Result removeColor(Color color) {
-		return this.colorService.delete(color);
+	public Result removeColor(CreateColorRequest createColorRequest) {
+		return this.colorService.delete(createColorRequest);
 	}
 	
 	@PostMapping("/updatecolor")
-	public Result updateColor(Color color) {
-		return this.colorService.update(color);
+	public ResponseEntity<?> updateColor(@Valid @RequestBody  CreateColorRequest createColorRequest) {
+		return ResponseEntity.ok(this.colorService.update(createColorRequest));
 	}
 
 }

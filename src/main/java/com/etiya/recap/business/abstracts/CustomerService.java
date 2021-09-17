@@ -15,8 +15,8 @@ public interface CustomerService {
 	
 	DataResult<Customer> getById(int id);
 	
-	Result delete(Customer customer);
+	Result delete(CreateCustomerRequest createCustomerRequest);
 	
-	Result update(Customer customer);
+	Result update(CreateCustomerRequest createCustomerRequest);
 
 }

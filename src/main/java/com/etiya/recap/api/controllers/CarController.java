@@ -2,10 +2,14 @@ package com.etiya.recap.api.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,9 +33,11 @@ public class CarController {
 	}
 
 	@PostMapping("/addcar")
-	public Result addCar(CreateCarRequest createCarRequest) {
-		return this.carService.add(createCarRequest);
+	public ResponseEntity<?> addCar(@Valid @RequestBody CreateCarRequest createCarRequest) {
+		return ResponseEntity.ok(this.carService.add(createCarRequest));
 	}
+	
+	
 
 	@GetMapping("/getallcars")
 	public DataResult<List<Car>> getAllCars() {
@@ -49,13 +55,16 @@ public class CarController {
 	}
 	
 	@DeleteMapping("/removecar")
-	public Result removeCar(Car car) {
-		return this.carService.delete(car);
+	public Result removeCar(CreateCarRequest createCarRequest) {
+		return this.carService.delete(createCarRequest);
 	}
 	
 	@PostMapping("/updatecar")
-	public Result updateCar(Car car) {
-		return this.carService.update(car);
+	public ResponseEntity<?> updateCar(@Valid @RequestBody CreateCarRequest createCarRequest) {
+		return ResponseEntity.ok(this.carService.update(createCarRequest));
 	}
+	
+	
+
 
 }

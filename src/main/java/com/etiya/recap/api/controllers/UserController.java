@@ -2,10 +2,14 @@ package com.etiya.recap.api.controllers;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,8 +33,8 @@ public class UserController {
 	
 	
 	@PostMapping("/adduser")
-	public Result addUser(CreateUserRequest createUserRequest) {
-		return this.userService.add(createUserRequest);
+	public ResponseEntity<?>addUser(@Valid @RequestBody  CreateUserRequest createUserRequest) {
+		return ResponseEntity.ok(this.userService.add(createUserRequest));
 	}
 
 	@GetMapping("/getallusers")
@@ -45,13 +49,13 @@ public class UserController {
 	
 	
 	@DeleteMapping("/removeuser")
-	public Result removeCar(User user) {
-		return this.userService.delete(user);
+	public Result removeCar(CreateUserRequest createUserRequest) {
+		return this.userService.delete(createUserRequest);
 	}
 	
 	@PostMapping("/updateuser")
-	public Result updateCar(User user) {
-		return this.userService.update(user);
+	public ResponseEntity<?> updateCar(@Valid @RequestBody  CreateUserRequest createUserRequest) {
+		return ResponseEntity.ok(this.userService.update(createUserRequest));
 	}
 
 }

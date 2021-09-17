@@ -1,6 +1,7 @@
 package com.etiya.recap.entities.requests;
 
-import javax.validation.constraints.Min;
+import java.util.Date;
+
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -8,26 +9,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateCarRequest {
+public class CreateCarImagesRequest {
 	
 	private int id;
 	
+	@NotNull(message = "Boş geçilemez")
+    private String imagePath;
 	
-	@NotNull
-	@Min(1900)
-	private int modelYear;
+	@NotNull(message = "Boş geçilemez")
+	private Date date;
 	
-	@NotNull
-	@Min(0)
-	private double dailyPrice;
-	
-	private String description;
-	
-	private int brandId;
-	private int colorId;
+	private int carId;
 
 }

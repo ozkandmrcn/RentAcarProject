@@ -68,13 +68,34 @@ public class RentalManager implements RentalService {
 	}
 
 	@Override
-	public Result delete(Rental rental) {
+	public Result delete(CreateRentalRequest createRentalRequest) {
+		
+		Rental rental=new Rental();
+		rental.setId(createRentalRequest.getId());
+		
+		
 		this.rentalDao.delete(rental);
 		return new SuccessResult(true,  Messages.Delete);
 	}
 
 	@Override
-	public Result update(Rental rental) {
+	public Result update(CreateRentalRequest createRentalRequest) {
+		
+		Car car=new Car();
+		car.setId(createRentalRequest.getCarId());
+		
+		
+		Customer customer=new Customer();
+		customer.setCustomerId(createRentalRequest.getCustomerId());
+		
+		Rental rental=new Rental();
+		rental.setId(createRentalRequest.getId());
+		rental.setRentDate(createRentalRequest.getRentDate());
+		rental.setReturnDate(createRentalRequest.getReturnDate());
+		
+		rental.setCar(car);
+		rental.setCustomer(customer);
+		
 		this.rentalDao.save(rental);
 		return new SuccessResult(true,  Messages.Update);
 	}

@@ -68,14 +68,36 @@ public class CarManager implements CarService {
 	}
 
 	@Override
-	public Result delete(Car car) {
+	public Result delete(CreateCarRequest createCarRequest) {
+		
+		Car car=new Car();
+		car.setId(createCarRequest.getId());
+		
+		
 		this.carDao.delete(car);
 		return new SuccessResult(true,  Messages.Delete);
 
 	}
 
 	@Override
-	public Result update(Car car) {
+	public Result update(CreateCarRequest createCarRequest) {
+		
+		Brand brand=new Brand();
+		brand.setBrandId(createCarRequest.getBrandId());
+		
+		Color color=new Color();
+		color.setColorId(createCarRequest.getColorId());
+		
+		
+		Car car=new Car();
+		car.setId(createCarRequest.getId());
+		car.setModelYear(createCarRequest.getModelYear());
+		car.setDailyPrice(createCarRequest.getDailyPrice());
+		car.setDescription(createCarRequest.getDescription());
+	
+		car.setBrand(brand);
+		car.setColor(color);
+	
 		this.carDao.save(car);
 		return new SuccessResult(true,  Messages.Update);
 	}
