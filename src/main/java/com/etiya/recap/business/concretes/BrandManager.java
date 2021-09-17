@@ -5,13 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.etiya.recap.business.abstracts.BrandService;
+import com.etiya.recap.business.constants.Messages;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.core.utilities.results.SuccessDataResult;
 import com.etiya.recap.core.utilities.results.SuccessResult;
 import com.etiya.recap.dataAccess.abstracts.BrandDao;
 import com.etiya.recap.entities.concretes.Brand;
+import com.etiya.recap.entities.requests.CreateBrandRequest;
 
 @Service
 public class BrandManager implements BrandService{
@@ -26,30 +29,36 @@ public class BrandManager implements BrandService{
 
 	@Override
 	public DataResult<List<Brand>> getAll() {
-		return new SuccessDataResult<List<Brand>>(this.brandDao.findAll(),"Markalar başarıyla listelendi") ;
+		return new SuccessDataResult<List<Brand>>(this.brandDao.findAll(), Messages.GetAll) ;
 	}
 
 	@Override
-	public Result add(Brand brand) {
+	public Result add(CreateBrandRequest createBrandRequest) {
+	
+	
+		
+		Brand brand=new Brand();
+		brand.setBrandName(createBrandRequest.getBrandName());
+		
 		this.brandDao.save(brand);
-		return new SuccessResult(true,"Marka başarıyla eklendi");
+		return new SuccessResult(true, Messages.Add);
 	}
 
 	@Override
 	public DataResult<Brand> getById(int id) {
-		return new SuccessDataResult<Brand>(this.brandDao.getById(id),"Marka başarıyla listelendi") ;
+		return new SuccessDataResult<Brand>(this.brandDao.getById(id), Messages.GetById) ;
 	}
 
 	@Override
 	public Result delete(Brand brand) {
 		this.brandDao.delete(brand);
-		return new SuccessResult(true,"Marka başarıyla silindi");
+		return new SuccessResult(true, Messages.Delete);
 	}
 
 	@Override
 	public Result update(Brand brand) {
 		this.brandDao.save(brand);
-		return new SuccessResult(true,"Marka başarıyla güncellendi");
+		return new SuccessResult(true, Messages.Update);
 		
 	}
 

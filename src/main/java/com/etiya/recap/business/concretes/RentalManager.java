@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.recap.business.abstracts.RentalService;
+import com.etiya.recap.business.constants.Messages;
 import com.etiya.recap.core.utilities.business.BusinessRentalRules;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.ErrorResult;
@@ -13,7 +14,10 @@ import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.core.utilities.results.SuccessDataResult;
 import com.etiya.recap.core.utilities.results.SuccessResult;
 import com.etiya.recap.dataAccess.abstracts.RentalDao;
+import com.etiya.recap.entities.concretes.Car;
+import com.etiya.recap.entities.concretes.Customer;
 import com.etiya.recap.entities.concretes.Rental;
+import com.etiya.recap.entities.requests.CreateRentalRequest;
 @Service
 public class RentalManager implements RentalService {
 
@@ -27,11 +31,26 @@ public class RentalManager implements RentalService {
 
 	@Override
 	public DataResult<List<Rental>> getAll() {
-		return new SuccessDataResult<List<Rental>>(this.rentalDao.findAll(), "Araba kiralama işlemleri listelendi");
+		return new SuccessDataResult<List<Rental>>(this.rentalDao.findAll(),  Messages.GetAll);
 	}
 
 	@Override
-	public Result add(Rental rental) {
+	public Result add(CreateRentalRequest createRentalRequest) {
+		
+		Car car=new Car();
+		car.setId(createRentalRequest.getCarId());
+		
+		
+		Customer customer=new Customer();
+		customer.setCustomerId(createRentalRequest.getCustomerId());
+		
+		Rental rental=new Rental();
+		rental.setRentDate(createRentalRequest.getRentDate());
+		rental.setReturnDate(createRentalRequest.getReturnDate());
+		rental.setCar(car);
+		rental.setCustomer(customer);
+		
+		
 		
 		var result = BusinessRentalRules.run(checkCarIsReturned(rental.getCar().getId()));
 
@@ -40,24 +59,24 @@ public class RentalManager implements RentalService {
 	}
 		
 		this.rentalDao.save(rental);
-		return new SuccessResult(true, " Yeni kiralama işlemi başarılı bir şekilde oluşturuldu.");
+		return new SuccessResult(true,  Messages.Add);
 	}
 
 	@Override
 	public DataResult<Rental> getById(int id) {
-		return new SuccessDataResult<Rental>(this.rentalDao.getById(id), "Araba kiralama işlemi listelendi");
+		return new SuccessDataResult<Rental>(this.rentalDao.getById(id),  Messages.GetById);
 	}
 
 	@Override
 	public Result delete(Rental rental) {
 		this.rentalDao.delete(rental);
-		return new SuccessResult(true, " Kiralama işlemi silindi.");
+		return new SuccessResult(true,  Messages.Delete);
 	}
 
 	@Override
 	public Result update(Rental rental) {
 		this.rentalDao.save(rental);
-		return new SuccessResult(true, " Kiralama işlemi güncellendi.");
+		return new SuccessResult(true,  Messages.Update);
 	}
 	
 	
@@ -66,7 +85,7 @@ public class RentalManager implements RentalService {
 		if (rentals != null) {
 			for (Rental rental : this.rentalDao.getByCar_id(carId)) {
 				if (rental.getReturnDate() == null) {
-					return new ErrorResult("Malesef kiralama yapılamaz. Araç şuan müşteride");
+					return new ErrorResult(Messages.ErrorIfCarIsNotAvailable);
 				}
 			}
 		}

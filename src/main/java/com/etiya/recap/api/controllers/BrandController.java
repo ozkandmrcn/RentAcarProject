@@ -13,6 +13,7 @@ import com.etiya.recap.business.abstracts.BrandService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.entities.concretes.Brand;
+import com.etiya.recap.entities.requests.CreateBrandRequest;
 
 @RestController
 @RequestMapping("/api/brands")
@@ -28,8 +29,8 @@ public class BrandController {
 
 
 	@PostMapping("/addbrand")
-	public Result addBrand(Brand brand){
-		return this.brandService.add(brand);
+	public Result addBrand(CreateBrandRequest createBrandRequest){
+		return this.brandService.add(createBrandRequest);
 	}
 	
 	

@@ -34,14 +34,13 @@ public class Customer {
 	@Column(name = "customer_id")
 	private int customerId;
 	
-	@OneToOne
-	@JoinColumn(name ="user_id")
-	private User user;
-	
 	
 	@Column(name = "company_name")
 	private String companyName;
 	
+	@OneToOne
+	@JoinColumn(name ="user_id")
+	private User user;
 
 	@OneToMany(mappedBy = "customer")
 	private List<Rental> rentals;

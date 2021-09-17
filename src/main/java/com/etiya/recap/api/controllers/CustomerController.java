@@ -13,6 +13,7 @@ import com.etiya.recap.business.abstracts.CustomerService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.entities.concretes.Customer;
+import com.etiya.recap.entities.requests.CreateCustomerRequest;
 
 @RestController
 @RequestMapping("/api/customers")
@@ -29,8 +30,8 @@ public class CustomerController {
 	
 	
 	@PostMapping("/addcustomer")
-	public Result addCustomer(Customer customer) {
-		return this.customerService.add(customer);
+	public Result addCustomer(CreateCustomerRequest createCustomerRequest) {
+		return this.customerService.add(createCustomerRequest);
 	}
 
 	@GetMapping("/getallcustomers")

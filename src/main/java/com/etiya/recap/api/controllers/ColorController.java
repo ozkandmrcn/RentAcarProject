@@ -13,6 +13,7 @@ import com.etiya.recap.business.abstracts.ColorService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.entities.concretes.Color;
+import com.etiya.recap.entities.requests.CreateColorRequest;
 
 @RestController
 @RequestMapping("/api/colors")
@@ -26,8 +27,8 @@ public class ColorController {
 	}
 
 	@PostMapping("/addcolor")
-	public Result addColor(Color color) {
-		return this.colorService.add(color);
+	public Result addColor( CreateColorRequest createColorRequest) {
+		return this.colorService.add(createColorRequest);
 	}
 
 	@GetMapping("/getallcolors")

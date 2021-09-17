@@ -12,6 +12,7 @@ import com.etiya.recap.core.utilities.results.SuccessDataResult;
 import com.etiya.recap.core.utilities.results.SuccessResult;
 import com.etiya.recap.dataAccess.abstracts.UserDao;
 import com.etiya.recap.entities.concretes.User;
+import com.etiya.recap.entities.requests.CreateUserRequest;
 
 @Service
 public class UserManager implements UserService {
@@ -30,7 +31,14 @@ public class UserManager implements UserService {
 	}
 
 	@Override
-	public Result add(User user) {
+	public Result add(CreateUserRequest createUserRequest) {
+		
+		User user=new User();
+		user.setFirstName(createUserRequest.getFirstName());
+		user.setLastName(createUserRequest.getLastName());
+		user.setEmail(createUserRequest.getEmail());
+		user.setPassword(createUserRequest.getPassword());
+		
 		
 		this.userDao.save(user);
 		return new SuccessResult(true, "Kullanıcı başarıyla eklendi");

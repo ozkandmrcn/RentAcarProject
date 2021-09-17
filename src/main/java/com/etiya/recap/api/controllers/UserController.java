@@ -13,6 +13,7 @@ import com.etiya.recap.business.abstracts.UserService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.entities.concretes.User;
+import com.etiya.recap.entities.requests.CreateUserRequest;
 
 @RestController
 @RequestMapping("/api/users")
@@ -28,8 +29,8 @@ public class UserController {
 	
 	
 	@PostMapping("/adduser")
-	public Result addUser(User user) {
-		return this.userService.add(user);
+	public Result addUser(CreateUserRequest createUserRequest) {
+		return this.userService.add(createUserRequest);
 	}
 
 	@GetMapping("/getallusers")

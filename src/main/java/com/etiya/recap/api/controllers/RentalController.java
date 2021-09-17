@@ -14,6 +14,7 @@ import com.etiya.recap.business.abstracts.RentalService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.entities.concretes.Rental;
+import com.etiya.recap.entities.requests.CreateRentalRequest;
 
 
 @RestController
@@ -31,8 +32,8 @@ public class RentalController {
 	}
 	
 	@PostMapping("/addrental")
-	public Result addRental(@RequestBody Rental rental) {
-		return this.rentalService.add(rental);
+	public Result addRental(@RequestBody CreateRentalRequest createRentalRequest) {
+		return this.rentalService.add(createRentalRequest);
 	}
 
 	@GetMapping("/getallrentals")

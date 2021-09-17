@@ -8,8 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -33,13 +33,6 @@ public class Car {
 	@Column(name = "id")
 	private int id;
 	
-	@OneToOne
-	@JoinColumn(name ="brand_id")
-	private Brand brand;
-	
-	@OneToOne
-	@JoinColumn(name ="color_id")
-	private Color color;
 	
 	@Column(name = "modelYear")
 	private int modelYear;
@@ -52,6 +45,16 @@ public class Car {
 	
 	@Column(name = "status")
 	private boolean status;
+	
+	
+	@ManyToOne
+	@JoinColumn(name ="brand_id")
+	private Brand brand;
+	
+	
+	@ManyToOne
+	@JoinColumn(name ="color_id")
+	private Color color;
 	
 	@OneToMany(mappedBy = "car")
 	private List<Rental> rentals;
