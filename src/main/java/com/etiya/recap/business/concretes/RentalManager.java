@@ -13,6 +13,8 @@ import com.etiya.recap.core.utilities.results.ErrorResult;
 import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.core.utilities.results.SuccessDataResult;
 import com.etiya.recap.core.utilities.results.SuccessResult;
+import com.etiya.recap.dataAccess.abstracts.CarDao;
+import com.etiya.recap.dataAccess.abstracts.CustomerDao;
 import com.etiya.recap.dataAccess.abstracts.RentalDao;
 import com.etiya.recap.entities.concretes.Car;
 import com.etiya.recap.entities.concretes.Customer;
@@ -23,11 +25,16 @@ import com.etiya.recap.entities.requests.CreateRentalRequest;
 public class RentalManager implements RentalService {
 
 	private RentalDao rentalDao;
+	private CarDao carDao;
+	private CustomerDao customerDao;
 
 	@Autowired
-	public RentalManager(RentalDao rentalDao) {
+	public RentalManager(RentalDao rentalDao,CarDao carDao,CustomerDao customerDao)
+ {
 		super();
 		this.rentalDao = rentalDao;
+		this.carDao=carDao;
+		this.customerDao=customerDao;
 	}
 
 	@Override
@@ -38,23 +45,30 @@ public class RentalManager implements RentalService {
 	@Override
 	public Result add(CreateRentalRequest createRentalRequest) {
 
+		
 		Car car = new Car();
-		car.setId(createRentalRequest.getCarId());
-
+		car.setId(createRentalRequest.getCarId());		
+		car.setFindeksScore(this.carDao.getFindeksScoreByCarId(car.getId()));
+		
+		
 		Customer customer = new Customer();
 		customer.setCustomerId(createRentalRequest.getCustomerId());
-
+		customer.setFindeksScore(this.customerDao.getFindeksScoreByCustomerId(customer.getCustomerId()));
+		
+		
 		Rental rental = new Rental();
 		rental.setRentDate(createRentalRequest.getRentDate());
 		rental.setReturnDate(createRentalRequest.getReturnDate());
 		rental.setCar(car);
 		rental.setCustomer(customer);
+		
 
-		var result = BusinessRules.run(checkCarIsReturned(rental.getCar().getId()));
+		var result = BusinessRules.run(checkCarIsReturned(rental.getCar().getId()),checkFindeksScore(car,customer));
 
 		if (result != null) {
 			return result;
 		}
+		
 
 		this.rentalDao.save(rental);
 		return new SuccessResult(true, Messages.Add);
@@ -107,5 +121,15 @@ public class RentalManager implements RentalService {
 		}
 		return new SuccessResult();
 	}
+	
+	private Result checkFindeksScore(Car car,Customer customer)
+	{
+		if(customer.getFindeksScore()<car.getFindeksScore())
+		{
+			return new ErrorResult(Messages.ErrorFindeksScore);
+		}	
+		return  new SuccessResult();
+	}
+	
 
 }

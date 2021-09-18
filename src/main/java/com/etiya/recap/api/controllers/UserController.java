@@ -17,6 +17,8 @@ import com.etiya.recap.business.abstracts.UserService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.entities.concretes.User;
+import com.etiya.recap.entities.dtos.UserLoginDto;
+import com.etiya.recap.entities.dtos.UserRegisterDto;
 import com.etiya.recap.entities.requests.CreateUserRequest;
 
 @RestController
@@ -56,6 +58,16 @@ public class UserController {
 	@PostMapping("/updateuser")
 	public ResponseEntity<?> updateCar(@Valid @RequestBody  CreateUserRequest createUserRequest) {
 		return ResponseEntity.ok(this.userService.update(createUserRequest));
+	}
+	
+	@PostMapping("/registeruser")
+	public ResponseEntity<?>addUser(@Valid @RequestBody  UserRegisterDto userRegisterDto) {
+		return ResponseEntity.ok(this.userService.userRegister(userRegisterDto));
+	}
+	
+	@PostMapping("/loginuser")
+	public ResponseEntity<?>addUser(@Valid @RequestBody  UserLoginDto userLoginDto) {
+		return ResponseEntity.ok(this.userService.userLogin(userLoginDto));
 	}
 
 }

@@ -37,6 +37,10 @@ public class Customer {
 	@Column(name = "company_name")
 	private String companyName;
 	
+
+	@Column(name = "findeksScore")
+	private int findeksScore;
+	
 	@OneToOne
 	@JoinColumn(name ="user_id")
 	private User user;

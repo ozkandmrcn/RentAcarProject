@@ -2,6 +2,7 @@ package com.etiya.recap.entities.requests;
 
 import java.util.List;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -29,6 +30,11 @@ public class CreateCarRequest {
 	private double dailyPrice;
 	
 	private String description;
+	
+	@NotNull
+	@Min(0)
+	@Max(1900)
+	private int findeksScore;
 	
 	private int brandId;
 	private int colorId;

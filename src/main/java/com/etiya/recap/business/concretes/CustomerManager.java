@@ -41,6 +41,7 @@ public class CustomerManager implements CustomerService {
 		Customer customer=new Customer();
 		
 		customer.setCompanyName(createCustomerRequest.getCompanyName());
+		customer.setFindeksScore(createCustomerRequest.getFindeksScore());
 		customer.setUser(user);
 		
 		
@@ -78,6 +79,7 @@ public class CustomerManager implements CustomerService {
 		
 		customer.setCustomerId(createCustomerRequest.getId());
 		customer.setCompanyName(createCustomerRequest.getCompanyName());
+		customer.setFindeksScore(createCustomerRequest.getFindeksScore());
 		customer.setUser(user);
 		
 		

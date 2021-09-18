@@ -43,6 +43,9 @@ public class Car {
 	@Column(name = "description")
 	private String description;
 	
+	@Column(name = "findeksScore")
+	private int findeksScore;
+	
 	@ManyToOne
 	@JoinColumn(name ="brand_id")
 	private Brand brand;
@@ -54,9 +57,6 @@ public class Car {
 	
 	@OneToMany(mappedBy = "car")
 	private List<Rental> rentals;
-	
-//	@OneToMany
-//	private List<CarImages> carImages;
 	
 	@OneToMany(mappedBy = "car")
 	private List<CarImages>carImages ;

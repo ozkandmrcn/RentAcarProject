@@ -25,18 +25,14 @@ public interface CarDao extends JpaRepository<Car, Integer>{
 	
 	List<Car> getByColor_colorId(int colorId);
 	
-
-	
+	@Query("Select c.findeksScore FROM Car c Where c.id=:carId")
+	int getFindeksScoreByCarId(int carId);
 	
 	
 	@Query("Select  new com.etiya.recap.entities.dtos.CarDetailWithCarImgDto ( c.id,b.brandName,cl.colorName,c.dailyPrice, ci.imagePath) "
 			+ "From Car c Inner Join c.brand b Inner Join c.color cl Inner Join c.carImages ci Where c.id=:id ")
 	List<CarDetailWithCarImgDto> getCarWithCarImg(int id);
-	
-//	
-//	@Query("Select  new com.etiya.recap.entities.dtos.CarDetailWithCarImgDto  ( c.id,b.brandName,cl.colorName,c.dailyPrice, ci.imagePath) "
-//			+ "From Car c Inner Join c.brand b Inner Join c.color cl Inner Join c.carImages ci Where c.id=:id  ")
-//	List<CarDetailWithCarImgDto> getCarWithCarImg(int id);
 }
+	
 
 
