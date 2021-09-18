@@ -11,17 +11,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class CreateRentalRequest {
 	
 	private int id;
-	
-	
 	@NotNull(message = "Boş geçilemez")
 	private Date rentDate;
-	
 	private Date returnDate;
-	
 	private int carId;
 	private int customerId;
 

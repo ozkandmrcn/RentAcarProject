@@ -19,7 +19,5 @@ public interface CarImagesService {
 	
 	Result update(CreateCarImagesRequest createCarImagesRequest);
 	
-	DataResult<List<CarImages>> getImagesByCarId(int carId);
-	
 	
 }

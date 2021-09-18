@@ -43,10 +43,6 @@ public class Car {
 	@Column(name = "description")
 	private String description;
 	
-	@Column(name = "status")
-	private boolean status;
-	
-	
 	@ManyToOne
 	@JoinColumn(name ="brand_id")
 	private Brand brand;
@@ -59,16 +55,14 @@ public class Car {
 	@OneToMany(mappedBy = "car")
 	private List<Rental> rentals;
 	
-
+//	@OneToMany
+//	private List<CarImages> carImages;
+	
 	@OneToMany(mappedBy = "car")
-	private List<CarImages>carImages;
+	private List<CarImages>carImages ;
+
 	
 	
 	
 
 }
-
-
-
-/*
-Özellik olarak : Id, BrandId, ColorId, ModelYear, DailyPrice, Description alanlarını ekleyiniz. (Brand = Marka)*/

@@ -24,7 +24,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler"})
 public class CarImages {
 	
 	@Id
@@ -38,10 +38,11 @@ public class CarImages {
 	@Column(name = "imageDate")
 	private Date date;
 	
+
 	@ManyToOne
-	@JoinColumn(name = "car_id")
+	@JoinColumn(name ="car_id")
 	private Car car;
 	
-	
 
+	
 }

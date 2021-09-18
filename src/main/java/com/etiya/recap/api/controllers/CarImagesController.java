@@ -36,13 +36,11 @@ public class CarImagesController {
 		return ResponseEntity.ok(this.carImagesService.add(createCarImagesRequest));
 	}
 	
-	
-
-	@GetMapping("/getallcarsimages")
-	public DataResult<List<CarImages>> getAllCars() {
+	@GetMapping("/getallcarimages")
+	public  DataResult<List<CarImages>> getAllCarImages() {
 		return this.carImagesService.getAll();
 	}
-	
+
 	@GetMapping("/getcarimagesbyid")
 	public  DataResult<CarImages> getCarById(int id) {
 		return this.carImagesService.getById(id);
@@ -58,11 +56,4 @@ public class CarImagesController {
 	public ResponseEntity<?> updateCar(@Valid @RequestBody CreateCarImagesRequest createCarImagesRequest) {
 		return ResponseEntity.ok(this.carImagesService.update(createCarImagesRequest));
 	}
-	
-	@GetMapping("/getallcarbyid")
-	public DataResult<List<CarImages>> getallcarById(int carId) {
-		return this.carImagesService.getImagesByCarId(carId);
-	}
-	
-
 }

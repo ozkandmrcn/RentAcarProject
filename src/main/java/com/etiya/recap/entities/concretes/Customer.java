@@ -34,7 +34,6 @@ public class Customer {
 	@Column(name = "customer_id")
 	private int customerId;
 	
-	
 	@Column(name = "company_name")
 	private String companyName;
 	
@@ -45,10 +44,4 @@ public class Customer {
 	@OneToMany(mappedBy = "customer")
 	private List<Rental> rentals;
 	
-	
-	
-	
-	
-	
-
 }

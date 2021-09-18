@@ -28,7 +28,7 @@ public class CustomerManager implements CustomerService {
 
 	@Override
 	public DataResult<List<Customer>> getAll() {
-		return new SuccessDataResult<List<Customer>>(this.customerDao.findAll(),  Messages.GetAll);
+		return new SuccessDataResult<List<Customer>>(this.customerDao.findAll(),Messages.GetAll);
 	}
 
 	@Override

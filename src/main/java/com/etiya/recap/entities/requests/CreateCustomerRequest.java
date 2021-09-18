@@ -24,7 +24,6 @@ public class CreateCustomerRequest {
 	@Size(min=2,max=30)
 	private String companyName;
 	
-	
 	private int userId;
 
 }

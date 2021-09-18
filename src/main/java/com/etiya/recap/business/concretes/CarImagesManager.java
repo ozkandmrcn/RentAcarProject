@@ -1,6 +1,7 @@
 package com.etiya.recap.business.concretes;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,93 +21,83 @@ import com.etiya.recap.entities.requests.CreateCarImagesRequest;
 
 @Service
 public class CarImagesManager implements CarImagesService {
-	
-	
+
 	private CarImagesDao carImagesDao;
-	
-    @Autowired
+
+	@Autowired
 	public CarImagesManager(CarImagesDao carImagesDao) {
-		super();
 		this.carImagesDao = carImagesDao;
 	}
 
 	@Override
 	public DataResult<List<CarImages>> getAll() {
-		return  new SuccessDataResult<List<CarImages>>(this.carImagesDao.findAll(),Messages.GetAll);
+		return new SuccessDataResult<List<CarImages>>(this.carImagesDao.findAll(), Messages.GetAll);
 	}
 
 	@Override
 	public Result add(CreateCarImagesRequest createCarImagesRequest) {
 		
-		Car car=new Car();
-		car.setId(createCarImagesRequest.getCarId());
-		
-		
-		CarImages carImages=new CarImages();
-		carImages.setImagePath(createCarImagesRequest.getImagePath());
-		carImages.setDate(createCarImagesRequest.getDate());
-		carImages.setCar(car);
-		
-		var result=BusinessRentalRules.run(checkCarImagesCount(createCarImagesRequest.getCarId(),5));
-				
+       var result=BusinessRentalRules.run(checkIfCarHasMoreThanFiveImages(createCarImagesRequest.getCarId(),5));
 		
 		if(result!=null)
 		{
 			return result;
 		}
 		
+		
+		String imageNameRandom=UUID.randomUUID().toString();
+		
+		Car car=new Car();
+		car.setId(createCarImagesRequest.getCarId());
+
+		CarImages carImages = new CarImages();
+		carImages.setImagePath("carImages/"+imageNameRandom+"jpg");
+		carImages.setDate(createCarImagesRequest.getDate());
+		//carImages.setId(createCarImagesRequest.getId());
+		
+		carImages.setCar(car);
+
 		this.carImagesDao.save(carImages);
-		return new SuccessResult(true,  Messages.Add);
+		return new SuccessResult(true, Messages.Add);
 	}
 
 	@Override
 	public DataResult<CarImages> getById(int id) {
-		
-		return new SuccessDataResult<CarImages>(this.carImagesDao.getById(id),  Messages.GetById);
+
+		return new SuccessDataResult<CarImages>(this.carImagesDao.getById(id), Messages.GetById);
 	}
 
 	@Override
 	public Result delete(CreateCarImagesRequest createCarImagesRequest) {
-		
-		CarImages carImages=new CarImages();
+
+		CarImages carImages = new CarImages();
 		carImages.setId(createCarImagesRequest.getId());
-		
-		
+
 		this.carImagesDao.delete(carImages);
-		return new SuccessResult(true,  Messages.Delete);
+		return new SuccessResult(true, Messages.Delete);
 	}
 
 	@Override
 	public Result update(CreateCarImagesRequest createCarImagesRequest) {
-		Car car=new Car();
-		car.setId(createCarImagesRequest.getCarId());
-		
-		
-		CarImages carImages=new CarImages();
+
+		CarImages carImages = new CarImages();
 		carImages.setId(createCarImagesRequest.getId());
 		carImages.setImagePath(createCarImagesRequest.getImagePath());
 		carImages.setDate(createCarImagesRequest.getDate());
-		carImages.setCar(car);
-		
+
 		this.carImagesDao.save(carImages);
-		return new SuccessResult(true,  Messages.Update);
+		return new SuccessResult(true, Messages.Update);
 	}
 	
-	private Result checkCarImagesCount(int carId,int limit)
+	private Result checkIfCarHasMoreThanFiveImages(int carId,int limit)
 	{
 		 
-		  if(this.carImagesDao.countByCar_Id(carId)>=limit)
+		  if(this.carImagesDao.countByCar_id(carId)>=limit)
 		  {
-			  return new ErrorResult (Messages.ErrorIfCarHasMoreImages);
+			  return new ErrorResult("Bir arabaya ait en fazla 5 resim olabilir.");
 		  }
 		  
 		  return new SuccessResult();
-	}
-
-	@Override
-	public DataResult<List<CarImages>> getImagesByCarId(int carId) {
-		
-		return  new SuccessDataResult<List<CarImages>>(this.carImagesDao.getCarImagesByCarId(carId),Messages.GetAll);
 	}
 
 }
