@@ -12,15 +12,18 @@ import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.core.utilities.results.SuccessDataResult;
 import com.etiya.recap.core.utilities.results.SuccessResult;
 import com.etiya.recap.dataAccess.abstracts.CustomerDao;
+import com.etiya.recap.entities.abstracts.User;
 import com.etiya.recap.entities.concretes.Customer;
-import com.etiya.recap.entities.concretes.User;
-import com.etiya.recap.entities.requests.CreateCustomerRequest;
+import com.etiya.recap.entities.requests.create.CreateCustomerRequest;
+import com.etiya.recap.entities.requests.delete.DeleteCustomerRequest;
+import com.etiya.recap.entities.requests.update.UpdateCustomerRequest;
+
 @Service
 public class CustomerManager implements CustomerService {
-	
+
 	private CustomerDao customerDao;
-	
-    @Autowired
+
+	@Autowired
 	public CustomerManager(CustomerDao customerDao) {
 		super();
 		this.customerDao = customerDao;
@@ -28,61 +31,55 @@ public class CustomerManager implements CustomerService {
 
 	@Override
 	public DataResult<List<Customer>> getAll() {
-		return new SuccessDataResult<List<Customer>>(this.customerDao.findAll(),Messages.GetAll);
+		return new SuccessDataResult<List<Customer>>(this.customerDao.findAll(), Messages.GetAll);
 	}
 
 	@Override
 	public Result add(CreateCustomerRequest createCustomerRequest) {
-		
-		User user=new User();
+
+		User user = new User();
 		user.setUserId(createCustomerRequest.getUserId());
-		
-		
-		Customer customer=new Customer();
-		
+
+		Customer customer = new Customer();
+
 		customer.setCompanyName(createCustomerRequest.getCompanyName());
 		customer.setFindeksScore(createCustomerRequest.getFindeksScore());
 		customer.setUser(user);
-		
-		
-		
+
 		this.customerDao.save(customer);
 		return new SuccessResult(true, Messages.Add);
 	}
 
 	@Override
 	public DataResult<Customer> getById(int id) {
-		
-		return new SuccessDataResult<Customer>(this.customerDao.getById(id),  Messages.GetById);
-		
+
+		return new SuccessDataResult<Customer>(this.customerDao.getById(id), Messages.GetById);
+
 	}
 
 	@Override
-	public Result delete(CreateCustomerRequest createCustomerRequest) {
-		
-		Customer customer=new Customer();
-		customer.setCustomerId(createCustomerRequest.getId());
-		
-		
+	public Result delete(DeleteCustomerRequest deleteCustomerRequest) {
+
+		Customer customer = new Customer();
+		customer.setCustomerId(deleteCustomerRequest.getId());
+
 		this.customerDao.delete(customer);
-		return new SuccessResult(true,  Messages.Delete);
+		return new SuccessResult(true, Messages.Delete);
 	}
 
 	@Override
-	public Result update(CreateCustomerRequest createCustomerRequest) {
-		
-		User user=new User();
-		user.setUserId(createCustomerRequest.getUserId());
-		
-		
-		Customer customer=new Customer();
-		
-		customer.setCustomerId(createCustomerRequest.getId());
-		customer.setCompanyName(createCustomerRequest.getCompanyName());
-		customer.setFindeksScore(createCustomerRequest.getFindeksScore());
+	public Result update(UpdateCustomerRequest updateCustomerRequest) {
+
+		User user = new User();
+		user.setUserId(updateCustomerRequest.getUserId());
+
+		Customer customer = new Customer();
+
+		customer.setCustomerId(updateCustomerRequest.getId());
+		customer.setCompanyName(updateCustomerRequest.getCompanyName());
+		customer.setFindeksScore(updateCustomerRequest.getFindeksScore());
 		customer.setUser(user);
-		
-		
+
 		this.customerDao.save(customer);
 		return new SuccessResult(true, Messages.Update);
 	}

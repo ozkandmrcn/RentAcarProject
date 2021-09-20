@@ -15,27 +15,27 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class UserRegisterDto {
-	
+
 	private int id;
-	
-	@NotBlank(message="Boş olamaz")
+
+	@NotBlank(message = "Boş olamaz")
 	@NotNull
 	@Email
 	private String email;
-	
-	@NotBlank(message="Boş olamaz")
+
+	@NotBlank(message = "Boş olamaz")
 	@NotNull
-	@Size(min=2,max=30)
+	@Size(min = 2, max = 30)
 	private String password;
-	
-	@NotBlank(message="Boş olamaz")
+
+	@NotBlank(message = "Boş olamaz")
 	@NotNull
-	@Size(min=2,max=30)
+	@Size(min = 2, max = 30)
 	private String firstName;
-	
-	@NotBlank(message="Boş olamaz")
+
+	@NotBlank(message = "Boş olamaz")
 	@NotNull
-	@Size(min=2,max=30)
+	@Size(min = 2, max = 30)
 	private String lastName;
 
 }

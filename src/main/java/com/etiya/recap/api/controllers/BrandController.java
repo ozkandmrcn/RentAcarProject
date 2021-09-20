@@ -18,7 +18,9 @@ import com.etiya.recap.business.abstracts.BrandService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.entities.concretes.Brand;
-import com.etiya.recap.entities.requests.CreateBrandRequest;
+import com.etiya.recap.entities.requests.create.CreateBrandRequest;
+import com.etiya.recap.entities.requests.delete.DeleteBrandRequest;
+import com.etiya.recap.entities.requests.update.UpdateBrandRequest;
 
 @RestController
 @RequestMapping("/api/brands")
@@ -26,20 +28,15 @@ public class BrandController {
 	
 	private BrandService brandService;
 	
-	
 	@Autowired
 	public BrandController(BrandService brandService) {
 		this.brandService = brandService;
 	}
 
-
 	@PostMapping("/addbrand")
 	public ResponseEntity<?> addBrand(@Valid @RequestBody CreateBrandRequest createBrandRequest){
 		return ResponseEntity.ok(this.brandService.add(createBrandRequest)) ;
 	}
-	
-	
-	
 	
 	@GetMapping("/getallbrands")
 	public DataResult<List<Brand>> getAllBrands(){
@@ -52,15 +49,12 @@ public class BrandController {
 	}
 	
 	@DeleteMapping("/removebrand")
-	public Result removeBrand(CreateBrandRequest createBrandRequest) {
-		return this.brandService.delete(createBrandRequest);
+	public Result removeBrand(DeleteBrandRequest deleteBrandRequest) {
+		return this.brandService.delete(deleteBrandRequest);
 	}
 	
 	@PostMapping("/updatebrand")
-	public ResponseEntity<?> updateBrand(@Valid @RequestBody CreateBrandRequest createBrandRequest) {
-		return ResponseEntity.ok(this.brandService.update(createBrandRequest)) ;
+	public ResponseEntity<?> updateBrand(@Valid @RequestBody UpdateBrandRequest updateBrandRequest) {
+		return ResponseEntity.ok(this.brandService.update(updateBrandRequest)) ;
 	}
-	
-	
-
 }

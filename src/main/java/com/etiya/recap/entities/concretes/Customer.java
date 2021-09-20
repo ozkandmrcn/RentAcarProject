@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.etiya.recap.entities.abstracts.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -25,27 +26,29 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","rentals"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "rentals","creditCards" })
 public class Customer {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
+
 	@Column(name = "customer_id")
 	private int customerId;
-	
+
 	@Column(name = "company_name")
 	private String companyName;
-	
 
 	@Column(name = "findeksScore")
 	private int findeksScore;
-	
+
 	@OneToOne
-	@JoinColumn(name ="user_id")
+	@JoinColumn(name = "user_id")
 	private User user;
 
 	@OneToMany(mappedBy = "customer")
 	private List<Rental> rentals;
 	
+	@OneToMany(mappedBy = "customer")
+	private List<CreditCard> creditCards;
+
 }

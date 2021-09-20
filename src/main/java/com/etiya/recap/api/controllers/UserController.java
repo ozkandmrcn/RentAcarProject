@@ -16,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.recap.business.abstracts.UserService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.User;
+import com.etiya.recap.entities.abstracts.User;
 import com.etiya.recap.entities.dtos.UserLoginDto;
 import com.etiya.recap.entities.dtos.UserRegisterDto;
-import com.etiya.recap.entities.requests.CreateUserRequest;
+import com.etiya.recap.entities.requests.create.CreateUserRequest;
+import com.etiya.recap.entities.requests.delete.DeleteUserRequest;
+import com.etiya.recap.entities.requests.update.UpdateUserRequest;
 
 @RestController
 @RequestMapping("/api/users")
@@ -32,7 +34,6 @@ public class UserController {
 		super();
 		this.userService = userService;
 	}
-	
 	
 	@PostMapping("/adduser")
 	public ResponseEntity<?>addUser(@Valid @RequestBody  CreateUserRequest createUserRequest) {
@@ -49,15 +50,14 @@ public class UserController {
 		return this.userService.getById(id);
 	}
 	
-	
 	@DeleteMapping("/removeuser")
-	public Result removeCar(CreateUserRequest createUserRequest) {
-		return this.userService.delete(createUserRequest);
+	public Result removeCar(DeleteUserRequest deleteUserRequest) {
+		return this.userService.delete(deleteUserRequest);
 	}
 	
 	@PostMapping("/updateuser")
-	public ResponseEntity<?> updateCar(@Valid @RequestBody  CreateUserRequest createUserRequest) {
-		return ResponseEntity.ok(this.userService.update(createUserRequest));
+	public ResponseEntity<?> updateCar(@Valid @RequestBody  UpdateUserRequest updateUserRequest) {
+		return ResponseEntity.ok(this.userService.update(updateUserRequest));
 	}
 	
 	@PostMapping("/registeruser")
@@ -69,5 +69,4 @@ public class UserController {
 	public ResponseEntity<?>addUser(@Valid @RequestBody  UserLoginDto userLoginDto) {
 		return ResponseEntity.ok(this.userService.userLogin(userLoginDto));
 	}
-
 }

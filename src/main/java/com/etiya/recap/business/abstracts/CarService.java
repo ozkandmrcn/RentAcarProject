@@ -8,7 +8,9 @@ import com.etiya.recap.entities.concretes.Car;
 import com.etiya.recap.entities.concretes.CarImages;
 import com.etiya.recap.entities.dtos.CarDetailDto;
 import com.etiya.recap.entities.dtos.CarDetailWithCarImgDto;
-import com.etiya.recap.entities.requests.CreateCarRequest;
+import com.etiya.recap.entities.requests.create.CreateCarRequest;
+import com.etiya.recap.entities.requests.delete.DeleteCarRequest;
+import com.etiya.recap.entities.requests.update.UpdateCarRequest;
 
 
 public interface CarService {
@@ -19,12 +21,10 @@ public interface CarService {
 	
 	DataResult<Car> getById(int id);
 	
-	Result delete(CreateCarRequest createCarRequest);
+	Result delete(DeleteCarRequest deleteCarRequest);
 	
-	Result update(CreateCarRequest createCarRequest);
+	Result update(UpdateCarRequest updateCarRequest);
 	
-	
-
 	DataResult<List<CarDetailWithCarImgDto>> getCarWithCarImg(int id);
 	
 	DataResult<List<Car>> getCarByColorId(int colorId);

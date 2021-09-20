@@ -20,7 +20,9 @@ import com.etiya.recap.entities.concretes.Car;
 import com.etiya.recap.entities.concretes.CarImages;
 import com.etiya.recap.entities.dtos.CarDetailDto;
 import com.etiya.recap.entities.dtos.CarDetailWithCarImgDto;
-import com.etiya.recap.entities.requests.CreateCarRequest;
+import com.etiya.recap.entities.requests.create.CreateCarRequest;
+import com.etiya.recap.entities.requests.delete.DeleteCarRequest;
+import com.etiya.recap.entities.requests.update.UpdateCarRequest;
 
 
 @RestController
@@ -61,13 +63,13 @@ public class CarController {
 	
 	
 	@DeleteMapping("/removecar")
-	public Result removeCar(CreateCarRequest createCarRequest) {
-		return this.carService.delete(createCarRequest);
+	public Result removeCar(DeleteCarRequest deleteCarRequest) {
+		return this.carService.delete(deleteCarRequest);
 	}
 	
 	@PostMapping("/updatecar")
-	public ResponseEntity<?> updateCar(@Valid @RequestBody CreateCarRequest createCarRequest) {
-		return ResponseEntity.ok(this.carService.update(createCarRequest));
+	public ResponseEntity<?> updateCar(@Valid @RequestBody UpdateCarRequest updateCarRequest) {
+		return ResponseEntity.ok(this.carService.update(updateCarRequest));
 	}
 
 	@GetMapping("/getcarbybrandid")
@@ -84,6 +86,5 @@ public class CarController {
 	public  DataResult<List<CarDetailWithCarImgDto>> getCarDetailWithCarImg(int id) {
 		return this.carService.getCarWithCarImg(id);
 	}
-	
 	
 }

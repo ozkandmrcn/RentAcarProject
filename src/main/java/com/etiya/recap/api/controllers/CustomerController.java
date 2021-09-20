@@ -17,21 +17,21 @@ import com.etiya.recap.business.abstracts.CustomerService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.entities.concretes.Customer;
-import com.etiya.recap.entities.requests.CreateCustomerRequest;
+import com.etiya.recap.entities.requests.create.CreateCustomerRequest;
+import com.etiya.recap.entities.requests.delete.DeleteCustomerRequest;
+import com.etiya.recap.entities.requests.update.UpdateCustomerRequest;
 
 @RestController
 @RequestMapping("/api/customers")
 public class CustomerController {
 	
 	private CustomerService customerService;
-
 	
 	@Autowired
 	public CustomerController(CustomerService customerService) {
 		super();
 		this.customerService = customerService;
 	}
-	
 	
 	@PostMapping("/addcustomer")
 	public ResponseEntity<?> addCustomer(@Valid @RequestBody CreateCustomerRequest createCustomerRequest) {
@@ -48,18 +48,13 @@ public class CustomerController {
 		return this.customerService.getById(id);
 	}
 	
-	
 	@DeleteMapping("/removecustomer")
-	public Result removeCar(CreateCustomerRequest createCustomerRequest) {
-		return this.customerService.delete(createCustomerRequest);
+	public Result removeCar(DeleteCustomerRequest deleteCustomerRequest) {
+		return this.customerService.delete(deleteCustomerRequest);
 	}
 	
 	@PostMapping("/updatecustomer")
-	public ResponseEntity<?> updateCar(@Valid @RequestBody CreateCustomerRequest createCustomerRequest) {
-		return ResponseEntity.ok(this.customerService.update(createCustomerRequest));
+	public ResponseEntity<?> updateCar(@Valid @RequestBody UpdateCustomerRequest updateCustomerRequest) {
+		return ResponseEntity.ok(this.customerService.update(updateCustomerRequest));
 	}
-	
-	
-	
-
 }

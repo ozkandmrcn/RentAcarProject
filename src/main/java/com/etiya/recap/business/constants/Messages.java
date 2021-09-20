@@ -12,11 +12,7 @@ public class Messages {
      public static final String ErrorFindeksScore =  " Findeks skorunuz yeterli değil.";
      public static final String ErrorMail =  " Böyle bir kullanıcı mevcut";
      public static final String ErrorLogin =  " Böyle bir kullanıcı yoktur.";
-     public static final String SuccessLogin =  " Başarılı giriş yaptınız.";
-     
-    
-     
-	
-	
+     public static final String SuccessRegister =  " Başarıyla kayıt oldunuz.";
+     public static final String SuccessLogin =  " Başarıyla giriş yaptınız.";
 
 }

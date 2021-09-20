@@ -17,18 +17,18 @@ import com.etiya.recap.business.abstracts.RentalService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.entities.concretes.Rental;
-import com.etiya.recap.entities.requests.CreateRentalRequest;
+import com.etiya.recap.entities.requests.create.CreateRentalRequest;
+import com.etiya.recap.entities.requests.delete.DeleteRentalRequest;
+import com.etiya.recap.entities.requests.update.UpdateRentalRequest;
 
 
 @RestController
 @RequestMapping("/api/rentals")
 public class RentalController {
 	
-	
 	private RentalService rentalService;
 	
 	@Autowired
-
 	public RentalController(RentalService rentalService) {
 		super();
 		this.rentalService = rentalService;
@@ -50,17 +50,13 @@ public class RentalController {
 		return this.rentalService.getById(id);
 	}
 	
-	
-	
 	@DeleteMapping("/removerental")
-	public Result removeRental( CreateRentalRequest createRentalRequest) {
-		return this.rentalService.delete(createRentalRequest);
+	public Result removeRental( DeleteRentalRequest deleteRentalRequest) {
+		return this.rentalService.delete(deleteRentalRequest);
 	}
 	
 	@PostMapping("/updaterental")
-	public ResponseEntity<?> updateRentAl(@Valid @RequestBody  CreateRentalRequest createRentalRequest) {
-		return ResponseEntity.ok(this.rentalService.update(createRentalRequest));
+	public ResponseEntity<?> updateRentAl(@Valid @RequestBody  UpdateRentalRequest updateRentalRequest) {
+		return ResponseEntity.ok(this.rentalService.update(updateRentalRequest));
 	}
-	
-
 }

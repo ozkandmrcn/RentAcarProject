@@ -17,7 +17,9 @@ import com.etiya.recap.business.abstracts.ColorService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.entities.concretes.Color;
-import com.etiya.recap.entities.requests.CreateColorRequest;
+import com.etiya.recap.entities.requests.create.CreateColorRequest;
+import com.etiya.recap.entities.requests.delete.DeleteColorRequest;
+import com.etiya.recap.entities.requests.update.UpdateColorRequest;
 
 @RestController
 @RequestMapping("/api/colors")
@@ -46,13 +48,12 @@ public class ColorController {
 	}
 	
 	@DeleteMapping("/removecolor")
-	public Result removeColor(CreateColorRequest createColorRequest) {
-		return this.colorService.delete(createColorRequest);
+	public Result removeColor(DeleteColorRequest deleteColorRequest) {
+		return this.colorService.delete(deleteColorRequest);
 	}
 	
 	@PostMapping("/updatecolor")
-	public ResponseEntity<?> updateColor(@Valid @RequestBody  CreateColorRequest createColorRequest) {
-		return ResponseEntity.ok(this.colorService.update(createColorRequest));
+	public ResponseEntity<?> updateColor(@Valid @RequestBody  UpdateColorRequest updateColorRequest) {
+		return ResponseEntity.ok(this.colorService.update(updateColorRequest));
 	}
-
 }

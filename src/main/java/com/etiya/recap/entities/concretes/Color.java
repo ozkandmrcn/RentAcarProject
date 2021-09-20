@@ -23,17 +23,17 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","cars"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "cars" })
 public class Color {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "color_id")
 	private int colorId;
-	
+
 	@Column(name = "colorName")
 	private String colorName;
-	
+
 	@OneToMany(mappedBy = "color")
 	private List<Car> cars;
 

@@ -24,25 +24,22 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class CarImages {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	
+
 	@Column(name = "imagePath")
 	private String imagePath;
-	
+
 	@Column(name = "imageDate")
 	private Date date;
-	
 
 	@ManyToOne
-	@JoinColumn(name ="car_id")
+	@JoinColumn(name = "car_id")
 	private Car car;
-	
 
-	
 }

@@ -19,7 +19,9 @@ import com.etiya.recap.dataAccess.abstracts.RentalDao;
 import com.etiya.recap.entities.concretes.Car;
 import com.etiya.recap.entities.concretes.Customer;
 import com.etiya.recap.entities.concretes.Rental;
-import com.etiya.recap.entities.requests.CreateRentalRequest;
+import com.etiya.recap.entities.requests.create.CreateRentalRequest;
+import com.etiya.recap.entities.requests.delete.DeleteRentalRequest;
+import com.etiya.recap.entities.requests.update.UpdateRentalRequest;
 
 @Service
 public class RentalManager implements RentalService {
@@ -29,12 +31,11 @@ public class RentalManager implements RentalService {
 	private CustomerDao customerDao;
 
 	@Autowired
-	public RentalManager(RentalDao rentalDao,CarDao carDao,CustomerDao customerDao)
- {
+	public RentalManager(RentalDao rentalDao, CarDao carDao, CustomerDao customerDao) {
 		super();
 		this.rentalDao = rentalDao;
-		this.carDao=carDao;
-		this.customerDao=customerDao;
+		this.carDao = carDao;
+		this.customerDao = customerDao;
 	}
 
 	@Override
@@ -45,31 +46,27 @@ public class RentalManager implements RentalService {
 	@Override
 	public Result add(CreateRentalRequest createRentalRequest) {
 
-		
 		Car car = new Car();
-		car.setId(createRentalRequest.getCarId());		
+		car.setId(createRentalRequest.getCarId());
 		car.setFindeksScore(this.carDao.getFindeksScoreByCarId(car.getId()));
-		
-		
+
 		Customer customer = new Customer();
 		customer.setCustomerId(createRentalRequest.getCustomerId());
 		customer.setFindeksScore(this.customerDao.getFindeksScoreByCustomerId(customer.getCustomerId()));
-		
-		
+
 		Rental rental = new Rental();
 		rental.setRentDate(createRentalRequest.getRentDate());
 		rental.setReturnDate(createRentalRequest.getReturnDate());
 		rental.setCar(car);
 		rental.setCustomer(customer);
-		
 
-		var result = BusinessRules.run(checkCarIsReturned(rental.getCar().getId()),checkFindeksScore(car,customer));
+		var result = BusinessRules.run(checkCarIsReturned(car.getId()), checkFindeksScore(car, customer));
 
 		if (result != null) {
 			return result;
 		}
-		
 
+		//System.out.println(rental.getReturnDate());
 		this.rentalDao.save(rental);
 		return new SuccessResult(true, Messages.Add);
 	}
@@ -80,28 +77,28 @@ public class RentalManager implements RentalService {
 	}
 
 	@Override
-	public Result delete(CreateRentalRequest createRentalRequest) {
+	public Result delete(DeleteRentalRequest deleteRentalRequest) {
 
 		Rental rental = new Rental();
-		rental.setId(createRentalRequest.getId());
+		rental.setId(deleteRentalRequest.getId());
 
 		this.rentalDao.delete(rental);
 		return new SuccessResult(true, Messages.Delete);
 	}
 
 	@Override
-	public Result update(CreateRentalRequest createRentalRequest) {
+	public Result update(UpdateRentalRequest updateRentalRequest ) {
 
 		Car car = new Car();
-		car.setId(createRentalRequest.getCarId());
+		car.setId(updateRentalRequest.getCarId());
 
 		Customer customer = new Customer();
-		customer.setCustomerId(createRentalRequest.getCustomerId());
+		customer.setCustomerId(updateRentalRequest.getCustomerId());
 
 		Rental rental = new Rental();
-		rental.setId(createRentalRequest.getId());
-		rental.setRentDate(createRentalRequest.getRentDate());
-		rental.setReturnDate(createRentalRequest.getReturnDate());
+		rental.setId(updateRentalRequest.getId());
+		rental.setRentDate(updateRentalRequest.getRentDate());
+		rental.setReturnDate(updateRentalRequest.getReturnDate());
 
 		rental.setCar(car);
 		rental.setCustomer(customer);
@@ -111,25 +108,21 @@ public class RentalManager implements RentalService {
 	}
 
 	private Result checkCarIsReturned(int carId) {
-		List<Rental> rentals = this.rentalDao.getByCar_id(carId);
-		if (rentals != null) {
-			for (Rental rental : this.rentalDao.getByCar_id(carId)) {
-				if (rental.getReturnDate() == null) {
-					return new ErrorResult(Messages.ErrorIfCarIsNotAvailable);
-				}
+		List<Rental> checkRentalReturnDate = this.rentalDao.getByCar_id(carId);
+		for (Rental rental2 : checkRentalReturnDate) {
+			if (rental2.getReturnDate() == null) {
+				return new ErrorResult(Messages.ErrorIfCarIsNotAvailable);
 			}
+		}
+		
+		return new SuccessResult();
+	}
+
+	private Result checkFindeksScore(Car car, Customer customer) {
+		if (customer.getFindeksScore() < car.getFindeksScore()) {
+			return new ErrorResult(Messages.ErrorFindeksScore);
 		}
 		return new SuccessResult();
 	}
-	
-	private Result checkFindeksScore(Car car,Customer customer)
-	{
-		if(customer.getFindeksScore()<car.getFindeksScore())
-		{
-			return new ErrorResult(Messages.ErrorFindeksScore);
-		}	
-		return  new SuccessResult();
-	}
-	
 
 }

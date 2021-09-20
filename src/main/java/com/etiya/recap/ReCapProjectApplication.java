@@ -24,38 +24,29 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @RestControllerAdvice
 public class ReCapProjectApplication {
-
+	
+	//TODO 1 ReCapProject - CarDao classındaki getCarWithCarImg query'de imageleri list olarak almıyor.Sorgu eksik yada yanlış. 
 	public static void main(String[] args) {
 		SpringApplication.run(ReCapProjectApplication.class, args);
 	}
-	
-	
+
 	@Bean
 	public Docket api() {
-		return new 
-				Docket(DocumentationType.SWAGGER_2).
-				select().
-				apis(RequestHandlerSelectors.basePackage("com.etiya.recap")).
-				build();
+		return new Docket(DocumentationType.SWAGGER_2).select()
+				.apis(RequestHandlerSelectors.basePackage("com.etiya.recap")).build();
 	}
-	
-	
-	
-	 @ExceptionHandler(MethodArgumentNotValidException.class)
-		
-	 @ResponseStatus(HttpStatus.BAD_REQUEST)
-		public ErrorDataResult<Object> handleValidationException
-		(MethodArgumentNotValidException exceptions)
-	 {
-		 
-			Map<String,String> validationErrors = new HashMap<String, String>();
-			for(FieldError fieldError : exceptions.getBindingResult().getFieldErrors()) {
-				validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
-			}
-			
-			ErrorDataResult<Object> errors 
-			= new ErrorDataResult<Object>(validationErrors,"Doğrulama hataları");
-			return errors;
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ErrorDataResult<Object> handleValidationException(MethodArgumentNotValidException exceptions) {
+
+		Map<String, String> validationErrors = new HashMap<String, String>();
+		for (FieldError fieldError : exceptions.getBindingResult().getFieldErrors()) {
+			validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
 		}
+
+		ErrorDataResult<Object> errors = new ErrorDataResult<Object>(validationErrors, "Doğrulama hataları");
+		return errors;
+	}
 
 }

@@ -18,7 +18,9 @@ import com.etiya.recap.entities.concretes.CarImages;
 import com.etiya.recap.entities.concretes.Color;
 import com.etiya.recap.entities.dtos.CarDetailDto;
 import com.etiya.recap.entities.dtos.CarDetailWithCarImgDto;
-import com.etiya.recap.entities.requests.CreateCarRequest;
+import com.etiya.recap.entities.requests.create.CreateCarRequest;
+import com.etiya.recap.entities.requests.delete.DeleteCarRequest;
+import com.etiya.recap.entities.requests.update.UpdateCarRequest;
 
 @Service
 public class CarManager implements CarService {
@@ -55,8 +57,6 @@ public class CarManager implements CarService {
 		
 		this.carDao.save(car);
      	return new SuccessResult(true, Messages.Add);
-		
-		
 	}
 
 	@Override
@@ -65,29 +65,29 @@ public class CarManager implements CarService {
 	}
 
 	@Override
-	public Result delete(CreateCarRequest createCarRequest) {
+	public Result delete(DeleteCarRequest deleteCarRequest) {
 		Car car = new Car();
-		car.setId(createCarRequest.getId());
+		car.setId(deleteCarRequest.getId());
 
 		this.carDao.delete(car);
 		return new SuccessResult(true, Messages.Delete);
 	}
 
 	@Override
-	public Result update(CreateCarRequest createCarRequest) {
+	public Result update(UpdateCarRequest updateCarRequest) {
 
 		Brand brand = new Brand();
-		brand.setBrandId(createCarRequest.getBrandId());
+		brand.setBrandId(updateCarRequest.getBrandId());
 
 		Color color = new Color();
-		color.setColorId(createCarRequest.getColorId());
+		color.setColorId(updateCarRequest.getColorId());
 
 		Car car = new Car();
-		car.setId(createCarRequest.getId());
-		car.setModelYear(createCarRequest.getModelYear());
-		car.setDailyPrice(createCarRequest.getDailyPrice());
-		car.setDescription(createCarRequest.getDescription());
-		car.setFindeksScore(createCarRequest.getFindeksScore());
+		car.setId(updateCarRequest.getId());
+		car.setModelYear(updateCarRequest.getModelYear());
+		car.setDailyPrice(updateCarRequest.getDailyPrice());
+		car.setDescription(updateCarRequest.getDescription());
+		car.setFindeksScore(updateCarRequest.getFindeksScore());
 
 		car.setBrand(brand);
 		car.setColor(color);
@@ -105,7 +105,6 @@ public class CarManager implements CarService {
 	public DataResult<List<CarImages>> getAllCarImages(int carId) {
 		return new SuccessDataResult<List<CarImages>>(this.carDao.getCarImagesByCarId(carId), Messages.GetAll);
 	}
-	
 
 	@Override
 	public DataResult<List<Car>> getCarByBrandId(int brandId) {
@@ -125,10 +124,6 @@ public class CarManager implements CarService {
 		
         return new SuccessDataResult<List<CarDetailWithCarImgDto>>(cars, Messages.GetAll);
 	}
-	
-	
-	
-
 	
 }
 	

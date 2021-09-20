@@ -25,44 +25,38 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","rentals","carImages"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "rentals", "carImages" })
 public class Car {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	
-	
+
 	@Column(name = "modelYear")
 	private int modelYear;
-	
+
 	@Column(name = "dailyPrice")
 	private double dailyPrice;
-	
+
 	@Column(name = "description")
 	private String description;
-	
+
 	@Column(name = "findeksScore")
 	private int findeksScore;
-	
+
 	@ManyToOne
-	@JoinColumn(name ="brand_id")
+	@JoinColumn(name = "brand_id")
 	private Brand brand;
-	
-	
+
 	@ManyToOne
-	@JoinColumn(name ="color_id")
+	@JoinColumn(name = "color_id")
 	private Color color;
-	
+
 	@OneToMany(mappedBy = "car")
 	private List<Rental> rentals;
-	
-	@OneToMany(mappedBy = "car")
-	private List<CarImages>carImages ;
 
-	
-	
-	
+	@OneToMany(mappedBy = "car")
+	private List<CarImages> carImages;
 
 }

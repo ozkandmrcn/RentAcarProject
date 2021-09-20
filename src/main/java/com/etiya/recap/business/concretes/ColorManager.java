@@ -13,7 +13,9 @@ import com.etiya.recap.core.utilities.results.SuccessDataResult;
 import com.etiya.recap.core.utilities.results.SuccessResult;
 import com.etiya.recap.dataAccess.abstracts.ColorDao;
 import com.etiya.recap.entities.concretes.Color;
-import com.etiya.recap.entities.requests.CreateColorRequest;
+import com.etiya.recap.entities.requests.create.CreateColorRequest;
+import com.etiya.recap.entities.requests.delete.DeleteColorRequest;
+import com.etiya.recap.entities.requests.update.UpdateColorRequest;
 
 @Service
 public class ColorManager implements ColorService{
@@ -32,7 +34,6 @@ public class ColorManager implements ColorService{
 
 	@Override
 	public Result add(CreateColorRequest createColorRequest) {
-		
 		Color color=new Color();
 		color.setColorName(createColorRequest.getColorName());
 		
@@ -46,11 +47,9 @@ public class ColorManager implements ColorService{
 	}
 
 	@Override
-	public Result delete(CreateColorRequest createColorRequest) {
-		
+	public Result delete(DeleteColorRequest deleteColorRequest) {
 		Color color=new Color();
-		color.setColorId(createColorRequest.getId());
-		
+		color.setColorId(deleteColorRequest.getId());
 		
 		this.colorDao.delete(color);
 		return new SuccessResult(true,  Messages.Delete);
@@ -58,18 +57,13 @@ public class ColorManager implements ColorService{
 	}
 
 	@Override
-	public Result update(CreateColorRequest createColorRequest) {
-		
-
+	public Result update(UpdateColorRequest updateColorRequest) {
 		Color color=new Color();
-		color.setColorId(createColorRequest.getId());
-		color.setColorName(createColorRequest.getColorName());
-		
-		
+		color.setColorId(updateColorRequest.getId());
+		color.setColorName(updateColorRequest.getColorName());
 		
 		this.colorDao.save(color);
 		return new SuccessResult(true,  Messages.Update);
-		
 	}
 
 }

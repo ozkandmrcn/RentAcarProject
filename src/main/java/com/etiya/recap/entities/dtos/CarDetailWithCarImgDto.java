@@ -1,6 +1,5 @@
 package com.etiya.recap.entities.dtos;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,5 +21,4 @@ public class CarDetailWithCarImgDto {
 
 	private String carImages;
 
-	
 }

@@ -10,13 +10,13 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class CarDetailDto {
-	
+
 	private int id;
-	
+
 	private String brandName;
-	
+
 	private String colorName;
-	
+
 	private double dailyPrice;
 
 }

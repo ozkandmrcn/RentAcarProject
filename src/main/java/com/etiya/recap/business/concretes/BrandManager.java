@@ -14,12 +14,13 @@ import com.etiya.recap.core.utilities.results.SuccessDataResult;
 import com.etiya.recap.core.utilities.results.SuccessResult;
 import com.etiya.recap.dataAccess.abstracts.BrandDao;
 import com.etiya.recap.entities.concretes.Brand;
-import com.etiya.recap.entities.requests.CreateBrandRequest;
+import com.etiya.recap.entities.requests.create.CreateBrandRequest;
+import com.etiya.recap.entities.requests.delete.DeleteBrandRequest;
+import com.etiya.recap.entities.requests.update.UpdateBrandRequest;
 
 @Service
 public class BrandManager implements BrandService{
 
-	
 	private BrandDao brandDao;
 	
 	@Autowired
@@ -34,8 +35,6 @@ public class BrandManager implements BrandService{
 
 	@Override
 	public Result add(CreateBrandRequest createBrandRequest) {
-	
-	
 		
 		Brand brand=new Brand();
 		brand.setBrandName(createBrandRequest.getBrandName());
@@ -50,26 +49,23 @@ public class BrandManager implements BrandService{
 	}
 
 	@Override
-	public Result delete(CreateBrandRequest createBrandRequest) {
-		
+	public Result delete(DeleteBrandRequest deleteBrandRequest) {
 		Brand brand=new Brand();
-		brand.setBrandId(createBrandRequest.getId());
-		
+		brand.setBrandId(deleteBrandRequest.getId());
 		
 		this.brandDao.delete(brand);
 		return new SuccessResult(true, Messages.Delete);
 	}
 
 	@Override
-	public Result update(CreateBrandRequest createBrandRequest) {
+	public Result update(UpdateBrandRequest updateBrandRequest) {
 		
 		Brand brand=new Brand();
-		brand.setBrandId(createBrandRequest.getId());
-		brand.setBrandName(createBrandRequest.getBrandName());
+		brand.setBrandId(updateBrandRequest.getId());
+		brand.setBrandName(updateBrandRequest.getBrandName());
 		
 		this.brandDao.save(brand);
 		return new SuccessResult(true, Messages.Update);
 		
 	}
-
 }
