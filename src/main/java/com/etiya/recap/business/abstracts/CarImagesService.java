@@ -3,7 +3,6 @@ package com.etiya.recap.business.abstracts;
 import java.io.IOException;
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
 
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
@@ -16,7 +15,7 @@ public interface CarImagesService {
 	
 	DataResult<List<CarImages>> getAll();
 
-	Result add(CreateCarImagesRequest createCarImagesRequest , MultipartFile file) throws IOException;
+	Result add(CreateCarImagesRequest createCarImagesRequest) throws IOException;
 	
 	DataResult<List<CarImages>> getById(int id);
 	

@@ -12,7 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.etiya.recap.entities.abstracts.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
@@ -40,11 +39,11 @@ public class Customer {
 
 	@Column(name = "findeksScore")
 	private int findeksScore;
-
+	
 	@OneToOne
 	@JoinColumn(name = "user_id")
-	private User user;
-
+	private ApplicationUser applicationUser;
+	
 	@OneToMany(mappedBy = "customer")
 	private List<Rental> rentals;
 	

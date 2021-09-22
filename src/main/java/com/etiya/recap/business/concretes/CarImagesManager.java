@@ -46,8 +46,8 @@ public class CarImagesManager implements CarImagesService {
 	}
 
 	@Override
-	public Result add(CreateCarImagesRequest createCarImagesRequest, MultipartFile file) throws IOException {
-		var result = BusinessRules.run(checkIfCarHasMoreThanFiveImages(createCarImagesRequest.getCarId(), 5), checkImageIsNull(file),checkImageType(file));
+	public Result add(CreateCarImagesRequest createCarImagesRequest) throws IOException {
+		var result = BusinessRules.run(checkIfCarHasMoreThanFiveImages(createCarImagesRequest.getCarId(), 5), checkImageIsNullOrCheckImageType(createCarImagesRequest.getFile()));
 		if (result != null) {
 			return result;
 		}
@@ -57,10 +57,10 @@ public class CarImagesManager implements CarImagesService {
 
 		String imageNameRandom = UUID.randomUUID().toString();
 
-		File myFile = new File("C:\\Users\\ozkan.demircan\\Desktop\\İmg\\" + imageNameRandom + "." + file.getContentType().toString().substring(6));
+		File myFile = new File("C:\\Users\\ozkan.demircan\\Desktop\\İmg\\" + imageNameRandom + "." + createCarImagesRequest.getFile().getContentType().toString().substring(6));
 		myFile.createNewFile();
 		FileOutputStream fos = new FileOutputStream(myFile);
-		fos.write(file.getBytes());
+		fos.write(createCarImagesRequest.getFile().getBytes());
 		fos.close();
 
 
@@ -69,7 +69,7 @@ public class CarImagesManager implements CarImagesService {
 
 		carImages.setDate(dateNow);
 		carImages.setCar(car);
-		carImages.setImagePath(myFile.toString());
+		carImages.setImagePath(imageNameRandom);
 
 		this.carImagesDao.save(carImages);
 		return new SuccessResult(true, Messages.Add);
@@ -114,24 +114,20 @@ public class CarImagesManager implements CarImagesService {
 		return new SuccessResult();
 	}
 	
-	private Result checkImageType(MultipartFile file) {
-		if (file == null || file.isEmpty()) {
-			return new ErrorResult();
-		}
-		if (file.getContentType().toString().substring(6) != "jpeg"
-				&& file.getContentType().toString().substring(6) != "jpg"
-				&& file.getContentType().toString().substring(6) != "png") {
-			return new ErrorResult("Lütfen jpeg, jpg, png uzantılı resim seçiniz");
-		}
-		return new SuccessResult();
+	
 
-	}
-
-	private Result checkImageIsNull(MultipartFile file) {
+	private Result checkImageIsNullOrCheckImageType(MultipartFile file) throws IOException {
+		
 		if (file == null) {
-			return new ErrorResult("Herhangi bir resim seçmediniz");
+			return new ErrorResult(Messages.ErrorCarImageNull);
 		}
-		return new SuccessResult();
+		
+		if(file.getOriginalFilename().endsWith("jpg")!=true &&(file.getOriginalFilename().endsWith("png")!=true  && file.getOriginalFilename().endsWith("jpeg")!=true))
+		{
+			return new ErrorResult(Messages.ErrorCarImageType);
+		}
+			
+          return new SuccessResult();
 	}
 	
 	
@@ -147,7 +143,7 @@ public class CarImagesManager implements CarImagesService {
 
 		carImages.add(carImage);
 
-		return new SuccessDataResult<List<CarImages>>(carImages, "Resimi olmayan Araba Default resim ile listelendi");
+		return new SuccessDataResult<List<CarImages>>(carImages, Messages.GetAll);
 	
 	
 	

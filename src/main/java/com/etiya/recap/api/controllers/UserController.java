@@ -13,60 +13,60 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.etiya.recap.business.abstracts.UserService;
+import com.etiya.recap.business.abstracts.ApplicationUserService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.abstracts.User;
+import com.etiya.recap.entities.concretes.ApplicationUser;
 import com.etiya.recap.entities.dtos.UserLoginDto;
 import com.etiya.recap.entities.dtos.UserRegisterDto;
-import com.etiya.recap.entities.requests.create.CreateUserRequest;
-import com.etiya.recap.entities.requests.delete.DeleteUserRequest;
-import com.etiya.recap.entities.requests.update.UpdateUserRequest;
+import com.etiya.recap.entities.requests.create.CreateApplicationUserRequest;
+import com.etiya.recap.entities.requests.delete.DeleteApplicationUserRequest;
+import com.etiya.recap.entities.requests.update.UpdateApplicationUserRequest;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 	
-	private UserService userService;
+	private ApplicationUserService applicationUserService;
 
 	@Autowired
-	public UserController(UserService userService) {
+	public UserController(ApplicationUserService applicationUserService) {
 		super();
-		this.userService = userService;
+		this.applicationUserService = applicationUserService;
 	}
 	
 	@PostMapping("/adduser")
-	public ResponseEntity<?>addUser(@Valid @RequestBody  CreateUserRequest createUserRequest) {
-		return ResponseEntity.ok(this.userService.add(createUserRequest));
+	public ResponseEntity<?>addUser(@Valid @RequestBody  CreateApplicationUserRequest createUserRequest) {
+		return ResponseEntity.ok(this.applicationUserService.add(createUserRequest));
 	}
 
 	@GetMapping("/getallusers")
-	public DataResult<List<User>> getAllUsers() {
-		return this.userService.getAll();
+	public DataResult<List<ApplicationUser>> getAllUsers() {
+		return this.applicationUserService.getAll();
 	}
 	
 	@GetMapping("/getuserbyid")
-	public  DataResult<User> getUserById(int id) {
-		return this.userService.getById(id);
+	public  DataResult<ApplicationUser> getUserById(int id) {
+		return this.applicationUserService.getById(id);
 	}
 	
 	@DeleteMapping("/removeuser")
-	public Result removeCar(DeleteUserRequest deleteUserRequest) {
-		return this.userService.delete(deleteUserRequest);
+	public Result removeCar(DeleteApplicationUserRequest deleteApplicationUserRequest) {
+		return this.applicationUserService.delete(deleteApplicationUserRequest);
 	}
 	
 	@PostMapping("/updateuser")
-	public ResponseEntity<?> updateCar(@Valid @RequestBody  UpdateUserRequest updateUserRequest) {
-		return ResponseEntity.ok(this.userService.update(updateUserRequest));
+	public ResponseEntity<?> updateCar(@Valid @RequestBody  UpdateApplicationUserRequest updateApplicationUserRequest) {
+		return ResponseEntity.ok(this.applicationUserService.update(updateApplicationUserRequest));
 	}
 	
 	@PostMapping("/registeruser")
 	public ResponseEntity<?>addUser(@Valid @RequestBody  UserRegisterDto userRegisterDto) {
-		return ResponseEntity.ok(this.userService.userRegister(userRegisterDto));
+		return ResponseEntity.ok(this.applicationUserService.userRegister(userRegisterDto));
 	}
 	
 	@PostMapping("/loginuser")
 	public ResponseEntity<?>addUser(@Valid @RequestBody  UserLoginDto userLoginDto) {
-		return ResponseEntity.ok(this.userService.userLogin(userLoginDto));
+		return ResponseEntity.ok(this.applicationUserService.userLogin(userLoginDto));
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,8 +37,13 @@ public class CarImagesController {
 	}
 	
 	@PostMapping("/addcarimages")
-	public ResponseEntity<?> addCar(@Valid  CreateCarImagesRequest createCarImagesRequest, MultipartFile file) throws IOException {
-		return ResponseEntity.ok(this.carImagesService.add(createCarImagesRequest,file));
+	public ResponseEntity<?> addCar(@RequestParam("carId") int carId, MultipartFile file) throws IOException {
+		
+		CreateCarImagesRequest createCarImagesRequest=new CreateCarImagesRequest();
+		createCarImagesRequest.setCarId(carId);
+		createCarImagesRequest.setFile(file);
+		
+		return ResponseEntity.ok(this.carImagesService.add(createCarImagesRequest));
 	}
 	
 	@GetMapping("/getallcarimages")

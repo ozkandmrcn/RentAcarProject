@@ -1,23 +1,17 @@
 package com.etiya.recap.entities.requests.create;
 
-
-
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateCarImagesRequest {
 
-	
-
-	
-
 	private int carId;
+	private MultipartFile file;
 
 }

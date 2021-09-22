@@ -12,7 +12,7 @@ import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.core.utilities.results.SuccessDataResult;
 import com.etiya.recap.core.utilities.results.SuccessResult;
 import com.etiya.recap.dataAccess.abstracts.CustomerDao;
-import com.etiya.recap.entities.abstracts.User;
+import com.etiya.recap.entities.concretes.ApplicationUser;
 import com.etiya.recap.entities.concretes.Customer;
 import com.etiya.recap.entities.requests.create.CreateCustomerRequest;
 import com.etiya.recap.entities.requests.delete.DeleteCustomerRequest;
@@ -37,14 +37,18 @@ public class CustomerManager implements CustomerService {
 	@Override
 	public Result add(CreateCustomerRequest createCustomerRequest) {
 
-		User user = new User();
-		user.setUserId(createCustomerRequest.getUserId());
+		
+		
+
+		ApplicationUser applicationUser=new ApplicationUser();
+		applicationUser.setUserId(createCustomerRequest.getUserId());
+
 
 		Customer customer = new Customer();
 
 		customer.setCompanyName(createCustomerRequest.getCompanyName());
 		customer.setFindeksScore(createCustomerRequest.getFindeksScore());
-		customer.setUser(user);
+		customer.setApplicationUser(applicationUser);
 
 		this.customerDao.save(customer);
 		return new SuccessResult(true, Messages.Add);
@@ -70,15 +74,17 @@ public class CustomerManager implements CustomerService {
 	@Override
 	public Result update(UpdateCustomerRequest updateCustomerRequest) {
 
-		User user = new User();
-		user.setUserId(updateCustomerRequest.getUserId());
+		
+		
+		ApplicationUser applicationUser=new ApplicationUser();
+		applicationUser.setUserId(updateCustomerRequest.getUserId());
 
 		Customer customer = new Customer();
 
 		customer.setCustomerId(updateCustomerRequest.getId());
 		customer.setCompanyName(updateCustomerRequest.getCompanyName());
 		customer.setFindeksScore(updateCustomerRequest.getFindeksScore());
-		customer.setUser(user);
+		customer.setApplicationUser(applicationUser);
 
 		this.customerDao.save(customer);
 		return new SuccessResult(true, Messages.Update);

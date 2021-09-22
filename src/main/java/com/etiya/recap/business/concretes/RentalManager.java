@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.etiya.recap.business.abstracts.RentalService;
 import com.etiya.recap.business.constants.Messages;
+import com.etiya.recap.core.outSourceService.FindeksService;
 import com.etiya.recap.core.utilities.business.BusinessRules;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.ErrorResult;
@@ -29,13 +30,15 @@ public class RentalManager implements RentalService {
 	private RentalDao rentalDao;
 	private CarDao carDao;
 	private CustomerDao customerDao;
+	private FindeksService findeksService;
 
 	@Autowired
-	public RentalManager(RentalDao rentalDao, CarDao carDao, CustomerDao customerDao) {
+	public RentalManager(RentalDao rentalDao, CarDao carDao, CustomerDao customerDao,FindeksService findeksService) {
 		super();
 		this.rentalDao = rentalDao;
 		this.carDao = carDao;
 		this.customerDao = customerDao;
+		this.findeksService=findeksService;
 	}
 
 	@Override
@@ -60,13 +63,12 @@ public class RentalManager implements RentalService {
 		rental.setCar(car);
 		rental.setCustomer(customer);
 
-		var result = BusinessRules.run(checkCarIsReturned(car.getId()), checkFindeksScore(car, customer));
+		var result = BusinessRules.run(checkCarIsReturned(car.getId()),this.findeksService.checkFindeksScore(car, customer));
 
 		if (result != null) {
 			return result;
 		}
 
-		//System.out.println(rental.getReturnDate());
 		this.rentalDao.save(rental);
 		return new SuccessResult(true, Messages.Add);
 	}
@@ -118,11 +120,6 @@ public class RentalManager implements RentalService {
 		return new SuccessResult();
 	}
 
-	private Result checkFindeksScore(Car car, Customer customer) {
-		if (customer.getFindeksScore() < car.getFindeksScore()) {
-			return new ErrorResult(Messages.ErrorFindeksScore);
-		}
-		return new SuccessResult();
-	}
+	
 
 }
