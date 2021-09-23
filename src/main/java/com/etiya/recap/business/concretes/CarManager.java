@@ -88,7 +88,6 @@ public class CarManager implements CarService {
 		car.setDailyPrice(updateCarRequest.getDailyPrice());
 		car.setDescription(updateCarRequest.getDescription());
 		car.setFindeksScore(updateCarRequest.getFindeksScore());
-
 		car.setBrand(brand);
 		car.setColor(color);
 
@@ -102,7 +101,7 @@ public class CarManager implements CarService {
 	}
 
 	@Override
-	public DataResult<List<CarImages>> getAllCarImages(int carId) {
+	public DataResult<List<CarImages>> getCarImagesByCarId(int carId) {
 		return new SuccessDataResult<List<CarImages>>(this.carDao.getCarImagesByCarId(carId), Messages.GetAll);
 	}
 
@@ -119,7 +118,7 @@ public class CarManager implements CarService {
 	}
 
 	@Override
-	public DataResult<List<CarDetailWithCarImgDto>>  getCarWithCarImg(int id) {
+	public DataResult<List<CarDetailWithCarImgDto>>  getCarWithCarImgByCarId(int id) {
 		List<CarDetailWithCarImgDto> cars=this.carDao.getCarWithCarImg(id);
 		
         return new SuccessDataResult<List<CarDetailWithCarImgDto>>(cars, Messages.GetAll);

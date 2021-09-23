@@ -12,10 +12,10 @@ import com.etiya.recap.entities.requests.update.UpdateCreditCardRequest;
 public interface CreditCardService {
 	
     DataResult<List<CreditCard>> getAll();
+    
+    DataResult<CreditCard> getById(int id);
 	
 	Result add(CreateCreditCardRequest createCreditCardRequest);
-	
-	DataResult<CreditCard> getById(int id);
 	
 	Result delete(DeleteCreditCardRequest deleteCreditCardRequest);
 	

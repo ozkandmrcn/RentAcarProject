@@ -16,5 +16,8 @@ public class Messages {
      public static final String SuccessLogin =  " Başarıyla giriş yaptınız.";
      public static final String ErrorCarImageType =  "Lütfen jpeg, jpg, png uzantılı resim seçiniz";
      public static final String ErrorCarImageNull =  "Herhangi bir resim seçmediniz";
+     public static final String ErrorCheckBrandName =  "Böyle bir marka mevcut";
+
+    
 
 }

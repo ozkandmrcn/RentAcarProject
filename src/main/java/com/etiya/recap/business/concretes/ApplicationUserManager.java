@@ -15,9 +15,8 @@ import com.etiya.recap.core.utilities.results.SuccessDataResult;
 import com.etiya.recap.core.utilities.results.SuccessResult;
 import com.etiya.recap.dataAccess.abstracts.ApplicationUserDao;
 import com.etiya.recap.entities.concretes.ApplicationUser;
-import com.etiya.recap.entities.dtos.UserLoginDto;
-import com.etiya.recap.entities.dtos.UserRegisterDto;
-import com.etiya.recap.entities.requests.create.CreateApplicationUserRequest;
+import com.etiya.recap.entities.requests.create.CreateUserLoginRequest;
+import com.etiya.recap.entities.requests.create.CreateUserRegisterRequest;
 import com.etiya.recap.entities.requests.delete.DeleteApplicationUserRequest;
 import com.etiya.recap.entities.requests.update.UpdateApplicationUserRequest;
 
@@ -35,36 +34,18 @@ public class ApplicationUserManager implements ApplicationUserService {
 	@Override
 	public DataResult<List<ApplicationUser>> getAll() {
 		return new SuccessDataResult<List<ApplicationUser>>(this.applicationUserDao.findAll(), Messages.GetAll);
-	
-	}
-	
 
-	@Override
-	public Result add(CreateApplicationUserRequest createUserRequest) {
-
-		ApplicationUser applicationUser=new ApplicationUser();
-		applicationUser.setFirstName(createUserRequest.getFirstName());
-		applicationUser.setLastName(createUserRequest.getLastName());
-		applicationUser.setEmail(createUserRequest.getEmail());
-		applicationUser.setPassword(createUserRequest.getPassword());
-		
-		
-		this.applicationUserDao.save(applicationUser);
-		return new SuccessResult(true, Messages.Add);
 	}
 
 	@Override
 	public DataResult<ApplicationUser> getById(int id) {
-
 		return new SuccessDataResult<ApplicationUser>(this.applicationUserDao.getById(id), Messages.GetAll);
 	}
 
 	@Override
 	public Result delete(DeleteApplicationUserRequest deleteApplicationUserRequest) {
 
-		
-		
-		ApplicationUser applicationUser=new ApplicationUser();
+		ApplicationUser applicationUser = new ApplicationUser();
 		applicationUser.setUserId(deleteApplicationUserRequest.getId());
 
 		this.applicationUserDao.delete(applicationUser);
@@ -74,25 +55,22 @@ public class ApplicationUserManager implements ApplicationUserService {
 	@Override
 	public Result update(UpdateApplicationUserRequest updateApplicationUserRequest) {
 
-		ApplicationUser applicationUser=new ApplicationUser();
+		ApplicationUser applicationUser = new ApplicationUser();
 		applicationUser.setUserId(updateApplicationUserRequest.getId());
-		applicationUser.setFirstName(updateApplicationUserRequest.getFirstName());
-		applicationUser.setLastName(updateApplicationUserRequest.getLastName());
 		applicationUser.setEmail(updateApplicationUserRequest.getEmail());
 		applicationUser.setPassword(updateApplicationUserRequest.getPassword());
 
 		this.applicationUserDao.save(applicationUser);
 		return new SuccessResult(true, Messages.Update);
 	}
-
+	
 	@Override
-	public Result userLogin(UserLoginDto userLoginDto) {
+	public Result userLogin(CreateUserLoginRequest createUserLoginRequest) {
 
-		
-		ApplicationUser applicationUser=new ApplicationUser();
-		
-		applicationUser.setEmail(userLoginDto.getEmail());
-		applicationUser.setPassword(userLoginDto.getPassword());
+		ApplicationUser applicationUser = new ApplicationUser();
+
+		applicationUser.setEmail(createUserLoginRequest.getEmail());
+		applicationUser.setPassword(createUserLoginRequest.getPassword());
 
 		var result = BusinessRules.run(checkEmailAndPassForLogin(applicationUser));
 
@@ -101,18 +79,13 @@ public class ApplicationUserManager implements ApplicationUserService {
 		}
 
 		return new SuccessResult(true, Messages.SuccessLogin);
-
 	}
-
 	@Override
-	public Result userRegister(UserRegisterDto userRegisterDto) {
+	public Result userRegister(CreateUserRegisterRequest createUserRegisterRequest) {
 
-		
-		ApplicationUser applicationUser=new ApplicationUser();
-		applicationUser.setFirstName(userRegisterDto.getFirstName());
-		applicationUser.setLastName(userRegisterDto.getLastName());
-		applicationUser.setEmail(userRegisterDto.getEmail());
-		applicationUser.setPassword(userRegisterDto.getPassword());
+		ApplicationUser applicationUser = new ApplicationUser();
+		applicationUser.setEmail(createUserRegisterRequest.getEmail());
+		applicationUser.setPassword(createUserRegisterRequest.getPassword());
 
 		var result = BusinessRules.run(checkEmailForRegister(applicationUser));
 
@@ -124,7 +97,7 @@ public class ApplicationUserManager implements ApplicationUserService {
 		return new SuccessResult(true, Messages.SuccessRegister);
 	}
 
-	//Kayıt olurken aynı email daha önce kullanılmış mı
+	// Kayıt olurken aynı email daha önce kullanılmış mı
 	private Result checkEmailForRegister(ApplicationUser applicationUser) {
 		for (String email : this.applicationUserDao.getEmails()) {
 
@@ -135,11 +108,12 @@ public class ApplicationUserManager implements ApplicationUserService {
 		return new SuccessResult();
 	}
 
-	//Giriş yaparken email ve şifre dbde var mı
+	// Giriş yaparken email ve şifre dbde var mı
 	private Result checkEmailAndPassForLogin(ApplicationUser applicationUser) {
 		for (ApplicationUser users : this.applicationUserDao.findAll()) {
 
-			if (users.getEmail().equals(applicationUser.getEmail()) && users.getPassword().equals(applicationUser.getPassword())) {
+			if (users.getEmail().equals(applicationUser.getEmail())
+					&& users.getPassword().equals(applicationUser.getPassword())) {
 				return new SuccessResult();
 			}
 		}

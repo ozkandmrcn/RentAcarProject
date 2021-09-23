@@ -12,13 +12,17 @@ import com.etiya.recap.entities.requests.update.UpdateRentalRequest;
 public interface RentalService {
 	
 	DataResult<List<Rental>> getAll();
-
-	Result add(CreateRentalRequest createRentalRequest);
 	
 	DataResult<Rental> getById(int id);
+
+	Result rentCorporateCustomer(CreateRentalRequest createRentalRequest);
+	
+	Result rentIndividualCustomer(CreateRentalRequest createRentalRequest);
 	
 	Result delete(DeleteRentalRequest deleteRentalRequest);
 	
-	Result update(UpdateRentalRequest updateRentalRequest);
+	Result updateIndividualCustomerRent(UpdateRentalRequest updateRentalRequest);
+	
+	Result updateCorporateCustomerRent(UpdateRentalRequest updateRentalRequest);
 
 }

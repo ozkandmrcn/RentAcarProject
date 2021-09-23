@@ -25,11 +25,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler"})
-
-
 public class CreditCard {
 	
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -48,8 +45,8 @@ public class CreditCard {
 	private String cvc;
 	
 	@ManyToOne
-	@JoinColumn(name = "customer_id")
-	private Customer customer;
+	@JoinColumn(name = "user_id")
+	private ApplicationUser applicationUser;
 
 	
 }

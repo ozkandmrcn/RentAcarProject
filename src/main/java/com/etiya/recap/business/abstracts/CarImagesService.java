@@ -21,7 +21,7 @@ public interface CarImagesService {
 	
 	Result delete(DeleteCarImagesRequest deleteCarImagesRequest);
 	
-	Result update(UpdateCarImagesRequest updateCarImagesRequest);
+	Result update(UpdateCarImagesRequest updateCarImagesRequest) throws IOException;
 	
 	
 }

@@ -3,14 +3,11 @@ package com.etiya.recap.api.controllers;
 import java.io.IOException;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +34,7 @@ public class CarImagesController {
 	}
 	
 	@PostMapping("/addcarimages")
-	public ResponseEntity<?> addCar(@RequestParam("carId") int carId, MultipartFile file) throws IOException {
+	public ResponseEntity<?> addCarImages(@RequestParam("carId") int carId, MultipartFile file) throws IOException {
 		
 		CreateCarImagesRequest createCarImagesRequest=new CreateCarImagesRequest();
 		createCarImagesRequest.setCarId(carId);
@@ -52,17 +49,21 @@ public class CarImagesController {
 	}
 
 	@GetMapping("/getcarimagesbyid")
-	public  DataResult<List<CarImages>> getCarById(int id) {
+	public  DataResult<List<CarImages>> getCarImagesById(int id) {
 		return this.carImagesService.getById(id);
 	}
 	
 	@DeleteMapping("/removecarimages")
-	public Result removeCar(DeleteCarImagesRequest deleteCarImagesRequest) {
+	public Result removeCarImages(DeleteCarImagesRequest deleteCarImagesRequest) {
 		return this.carImagesService.delete(deleteCarImagesRequest);
 	}
 	
 	@PostMapping("/updatecarimages")
-	public ResponseEntity<?> updateCar(@Valid @RequestBody UpdateCarImagesRequest updateCarImagesRequest) {
+	public ResponseEntity<?> updateCarImages(@RequestParam("carId") int carId, MultipartFile file) throws IOException {
+		UpdateCarImagesRequest updateCarImagesRequest=new UpdateCarImagesRequest();
+		updateCarImagesRequest.setCarId(carId);
+		updateCarImagesRequest.setFile(file);
+		
 		return ResponseEntity.ok(this.carImagesService.update(updateCarImagesRequest));
 	}
 }

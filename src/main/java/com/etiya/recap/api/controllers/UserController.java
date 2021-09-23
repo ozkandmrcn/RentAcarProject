@@ -17,9 +17,8 @@ import com.etiya.recap.business.abstracts.ApplicationUserService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.entities.concretes.ApplicationUser;
-import com.etiya.recap.entities.dtos.UserLoginDto;
-import com.etiya.recap.entities.dtos.UserRegisterDto;
-import com.etiya.recap.entities.requests.create.CreateApplicationUserRequest;
+import com.etiya.recap.entities.requests.create.CreateUserLoginRequest;
+import com.etiya.recap.entities.requests.create.CreateUserRegisterRequest;
 import com.etiya.recap.entities.requests.delete.DeleteApplicationUserRequest;
 import com.etiya.recap.entities.requests.update.UpdateApplicationUserRequest;
 
@@ -33,11 +32,6 @@ public class UserController {
 	public UserController(ApplicationUserService applicationUserService) {
 		super();
 		this.applicationUserService = applicationUserService;
-	}
-	
-	@PostMapping("/adduser")
-	public ResponseEntity<?>addUser(@Valid @RequestBody  CreateApplicationUserRequest createUserRequest) {
-		return ResponseEntity.ok(this.applicationUserService.add(createUserRequest));
 	}
 
 	@GetMapping("/getallusers")
@@ -61,12 +55,12 @@ public class UserController {
 	}
 	
 	@PostMapping("/registeruser")
-	public ResponseEntity<?>addUser(@Valid @RequestBody  UserRegisterDto userRegisterDto) {
-		return ResponseEntity.ok(this.applicationUserService.userRegister(userRegisterDto));
+	public ResponseEntity<?>addUser(@Valid @RequestBody  CreateUserRegisterRequest createUserRegisterRequest) {
+		return ResponseEntity.ok(this.applicationUserService.userRegister(createUserRegisterRequest));
 	}
 	
 	@PostMapping("/loginuser")
-	public ResponseEntity<?>addUser(@Valid @RequestBody  UserLoginDto userLoginDto) {
-		return ResponseEntity.ok(this.applicationUserService.userLogin(userLoginDto));
+	public ResponseEntity<?>addUser(@Valid @RequestBody  CreateUserLoginRequest createUserLoginRequest) {
+		return ResponseEntity.ok(this.applicationUserService.userLogin(createUserLoginRequest));
 	}
 }

@@ -16,22 +16,24 @@ import com.etiya.recap.entities.requests.update.UpdateCarRequest;
 public interface CarService {
 
 	DataResult<List<Car>> getAll();
-
-	Result add(CreateCarRequest createCarRequest);
 	
 	DataResult<Car> getById(int id);
+
+	Result add(CreateCarRequest createCarRequest);
 	
 	Result delete(DeleteCarRequest deleteCarRequest);
 	
 	Result update(UpdateCarRequest updateCarRequest);
 	
-	DataResult<List<CarDetailWithCarImgDto>> getCarWithCarImg(int id);
+	
+	
+	DataResult<List<CarDetailWithCarImgDto>> getCarWithCarImgByCarId(int id);
 	
 	DataResult<List<Car>> getCarByColorId(int colorId);
 	
 	DataResult<List<Car>> getCarByBrandId(int brandId);
 	
-	DataResult<List<CarImages>> getAllCarImages(int carId);
+	DataResult<List<CarImages>> getCarImagesByCarId(int carId);
 	
 	DataResult<List<CarDetailDto>> getAllCarsWithDetail();
 }

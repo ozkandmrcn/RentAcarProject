@@ -1,12 +1,8 @@
 package com.etiya.recap.entities.requests.update;
 
-import java.util.List;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-
-import com.etiya.recap.entities.concretes.CarImages;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,7 +34,5 @@ public class UpdateCarRequest {
 
 	private int brandId;
 	private int colorId;
-
-	private List<CarImages> carImages;
 
 }

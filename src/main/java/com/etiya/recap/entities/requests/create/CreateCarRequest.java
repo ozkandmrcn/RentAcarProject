@@ -1,12 +1,8 @@
 package com.etiya.recap.entities.requests.create;
 
-import java.util.List;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-
-import com.etiya.recap.entities.concretes.CarImages;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,8 +14,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateCarRequest {
-
-	
 
 	@NotNull
 	@Min(1900)
@@ -38,7 +32,5 @@ public class CreateCarRequest {
 
 	private int brandId;
 	private int colorId;
-
-	private List<CarImages> carImages;
 
 }

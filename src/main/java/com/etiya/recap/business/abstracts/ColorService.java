@@ -13,9 +13,9 @@ public interface ColorService {
 	
 	DataResult<List<Color>> getAll();
 	
-	Result add(CreateColorRequest createColorRequest);
-	
 	DataResult<Color> getById(int id);
+	
+	Result add(CreateColorRequest createColorRequest);
 	
 	Result delete(DeleteColorRequest deleteColorRequest);
 	

@@ -15,11 +15,18 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UpdateRentalRequest {
 	
+	@NotNull
 	private int id;
+	
 	@NotNull(message = "Boş geçilemez")
 	private Date rentDate;
+	
 	private Date returnDate;
+	
+	@NotNull
 	private int carId;
-	private int customerId;
+	
+	@NotNull
+	private int userId;
 
 }

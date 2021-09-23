@@ -25,7 +25,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @RestControllerAdvice
 public class ReCapProjectApplication {
 	
-	//TODO 1 ReCapProject - CarDao classındaki getCarWithCarImg query'de imageleri list olarak almıyor.Sorgu eksik yada yanlış. 
+	//TODO 1 ReCapProject - UpdateUserLogin,UpdateUserRegister
+	//TODO 2 DTOLAR eklenecek
 	public static void main(String[] args) {
 		SpringApplication.run(ReCapProjectApplication.class, args);
 	}

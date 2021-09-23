@@ -1,8 +1,8 @@
 package com.etiya.recap.entities.requests.update;
 
-import java.util.Date;
-
 import javax.validation.constraints.NotNull;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,15 +14,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateCarImagesRequest {
-	
+
+	@NotNull
 	private int id;
 
-	@NotNull(message = "Boş geçilemez")
-	private String imagePath;
-
-	@NotNull(message = "Boş geçilemez")
-	private Date date;
-
 	private int carId;
+
+	private MultipartFile file;
 
 }

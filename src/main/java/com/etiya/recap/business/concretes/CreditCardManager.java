@@ -12,8 +12,8 @@ import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.core.utilities.results.SuccessDataResult;
 import com.etiya.recap.core.utilities.results.SuccessResult;
 import com.etiya.recap.dataAccess.abstracts.CreditCardDao;
+import com.etiya.recap.entities.concretes.ApplicationUser;
 import com.etiya.recap.entities.concretes.CreditCard;
-import com.etiya.recap.entities.concretes.Customer;
 import com.etiya.recap.entities.requests.create.CreateCreditCardRequest;
 import com.etiya.recap.entities.requests.delete.DeleteCreditCardRequest;
 import com.etiya.recap.entities.requests.update.UpdateCreditCardRequest;
@@ -38,8 +38,8 @@ public class CreditCardManager implements CreditCardService {
 	@Override
 	public Result add(CreateCreditCardRequest createCreditCardRequest) {
 		
-		Customer customer=new Customer();
-		customer.setCustomerId(createCreditCardRequest.getCustomerId());
+		ApplicationUser applicationUser = new ApplicationUser();
+		applicationUser.setUserId(createCreditCardRequest.getUserId());
 		
 		CreditCard creditCard=new CreditCard();
 		creditCard.setNameOnTheCard(createCreditCardRequest.getNameOnTheCard());
@@ -47,7 +47,7 @@ public class CreditCardManager implements CreditCardService {
 		creditCard.setExpirationDate(createCreditCardRequest.getExpirationDate());
 		creditCard.setCvc(createCreditCardRequest.getCvc());
 		
-		creditCard.setCustomer(customer);
+		creditCard.setApplicationUser(applicationUser);
 
 		
 		this.creditCardDao.save(creditCard);
@@ -71,8 +71,8 @@ public class CreditCardManager implements CreditCardService {
 
 	@Override
 	public Result update(UpdateCreditCardRequest updateCreditCardRequest) {
-		Customer customer=new Customer();
-		customer.setCustomerId(updateCreditCardRequest.getCustomerId());
+		ApplicationUser applicationUser = new ApplicationUser();
+		applicationUser.setUserId(updateCreditCardRequest.getUserId());
 		
 		CreditCard creditCard=new CreditCard();
 		creditCard.setId(updateCreditCardRequest.getId());
@@ -81,7 +81,7 @@ public class CreditCardManager implements CreditCardService {
 		creditCard.setExpirationDate(updateCreditCardRequest.getExpirationDate());
 		creditCard.setCvc(updateCreditCardRequest.getCvc());
 		
-		creditCard.setCustomer(customer);
+		creditCard.setApplicationUser(applicationUser);
 
 		
 		this.creditCardDao.save(creditCard);

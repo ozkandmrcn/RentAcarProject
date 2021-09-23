@@ -18,5 +18,6 @@ public class CarDetailDto {
 	private String colorName;
 
 	private double dailyPrice;
+	
 
 }

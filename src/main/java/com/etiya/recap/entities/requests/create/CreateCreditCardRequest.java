@@ -17,8 +17,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CreateCreditCardRequest {
 
-	
-	
 	@NotBlank(message = "Boş olamaz")
 	@NotNull
 	@Size(min = 2, max = 30)
@@ -29,15 +27,15 @@ public class CreateCreditCardRequest {
 	@Size(min = 2, max = 30)
 	private String cardNumber;
 
-//	@NotNull(message = "Boş geçilemez")
-//	@Min(2021)
+	@NotNull(message = "Boş olamaz")
 	private Date expirationDate;
 
 	@NotBlank(message = "Boş olamaz")
 	@NotNull
-	@Size(min = 0, max = 10)
+	@Size(min = 2, max = 4)
 	private String cvc;
 
-	private int customerId;
+	@NotNull
+	private int userId;
 
 }

@@ -1,6 +1,9 @@
 package com.etiya.recap.entities.requests.delete;
 
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +15,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class DeleteCarImagesRequest {
 	
+	@NotBlank(message = "Boş olamaz")
+	@NotNull
 	private int id;
 
 }

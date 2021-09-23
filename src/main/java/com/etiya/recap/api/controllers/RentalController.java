@@ -34,9 +34,14 @@ public class RentalController {
 		this.rentalService = rentalService;
 	}
 	
-	@PostMapping("/addrental")
-	public ResponseEntity<?> addRental(@Valid  @RequestBody CreateRentalRequest createRentalRequest) {
-		return ResponseEntity.ok(this.rentalService.add(createRentalRequest)) ;
+	@PostMapping("/addcorporatecustomerrental")
+	public ResponseEntity<?> addCorporateCustomerRental(@Valid  @RequestBody CreateRentalRequest createRentalRequest) {
+		return ResponseEntity.ok(this.rentalService.rentCorporateCustomer(createRentalRequest)) ;
+	}
+	
+	@PostMapping("/addindividualcustomerrental")
+	public ResponseEntity<?> addIndividualCustomerRental(@Valid  @RequestBody CreateRentalRequest createRentalRequest) {
+		return ResponseEntity.ok(this.rentalService.rentIndividualCustomer(createRentalRequest)) ;
 	}
 
 	@GetMapping("/getallrentals")
@@ -55,8 +60,13 @@ public class RentalController {
 		return this.rentalService.delete(deleteRentalRequest);
 	}
 	
-	@PostMapping("/updaterental")
-	public ResponseEntity<?> updateRentAl(@Valid @RequestBody  UpdateRentalRequest updateRentalRequest) {
-		return ResponseEntity.ok(this.rentalService.update(updateRentalRequest));
+	@PostMapping("/updatecorporaterental")
+	public ResponseEntity<?> updateCorporateRental(@Valid @RequestBody  UpdateRentalRequest updateRentalRequest) {
+		return ResponseEntity.ok(this.rentalService.updateCorporateCustomerRent(updateRentalRequest));
+	}
+	
+	@PostMapping("/updateindividualrental")
+	public ResponseEntity<?> updateIndividualRental(@Valid @RequestBody  UpdateRentalRequest updateRentalRequest) {
+		return ResponseEntity.ok(this.rentalService.updateIndividualCustomerRent(updateRentalRequest));
 	}
 }

@@ -16,18 +16,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CreateApplicationUserRequest {
 
-
-
-	@NotBlank(message = "Boş olamaz")
-	@NotNull
-	@Size(min = 2, max = 30)
-	private String firstName;
-
-	@NotBlank(message = "Boş olamaz")
-	@NotNull
-	@Size(min = 2, max = 30)
-	private String lastName;
-
 	@NotBlank(message = "Boş olamaz")
 	@NotNull
 	@Email

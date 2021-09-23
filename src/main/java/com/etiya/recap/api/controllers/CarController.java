@@ -58,7 +58,7 @@ public class CarController {
 	
 	@GetMapping("/getcarimagesbycarid")
 	public  DataResult<List<CarImages>> getCarImagesByCarId(int carId) {
-		return this.carService.getAllCarImages(carId);
+		return this.carService.getCarImagesByCarId(carId);
 	}
 	
 	
@@ -84,7 +84,7 @@ public class CarController {
 	
 	@GetMapping("/getcardetailwithcarimg")
 	public  DataResult<List<CarDetailWithCarImgDto>> getCarDetailWithCarImg(int id) {
-		return this.carService.getCarWithCarImg(id);
+		return this.carService.getCarWithCarImgByCarId(id);
 	}
 	
 }

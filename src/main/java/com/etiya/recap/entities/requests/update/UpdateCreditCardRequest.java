@@ -23,22 +23,20 @@ public class UpdateCreditCardRequest {
 
 	@NotBlank(message = "Boş olamaz")
 	@NotNull
-	@Size(min = 10, max = 30)
 	private String nameOnTheCard;
 
 	@NotBlank(message = "Boş olamaz")
 	@NotNull
-	@Size(min = 10, max = 30)
 	private String cardNumber;
 
-	
+	@NotNull(message = "Boş olamaz")
 	private Date expirationDate;
 
 	@NotBlank(message = "Boş olamaz")
 	@NotNull
-	@Size(min = 0, max = 10)
+	@Size(min = 2, max = 4)
 	private String cvc;
 
-	private int customerId;
+	private int userId;
 
 }

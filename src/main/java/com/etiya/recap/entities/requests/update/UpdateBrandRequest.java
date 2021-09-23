@@ -13,9 +13,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class UpdateBrandRequest {
 	
+	@NotNull
 	private int id;
 
 	@NotBlank(message = "Boş olamaz")

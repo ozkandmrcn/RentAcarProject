@@ -47,7 +47,7 @@ public class CarImagesManager implements CarImagesService {
 
 	@Override
 	public Result add(CreateCarImagesRequest createCarImagesRequest) throws IOException {
-		var result = BusinessRules.run(checkIfCarHasMoreThanFiveImages(createCarImagesRequest.getCarId(), 5), checkImageIsNullOrCheckImageType(createCarImagesRequest.getFile()));
+		var result = BusinessRules.run(checkIfCarHasMoreThanFiveImages(createCarImagesRequest.getCarId(), 5), checkImageIsNullOrCheckImageTypeIsWrong(createCarImagesRequest.getFile()));
 		if (result != null) {
 			return result;
 		}
@@ -57,11 +57,11 @@ public class CarImagesManager implements CarImagesService {
 
 		String imageNameRandom = UUID.randomUUID().toString();
 
-		File myFile = new File("C:\\Users\\ozkan.demircan\\Desktop\\İmg\\" + imageNameRandom + "." + createCarImagesRequest.getFile().getContentType().toString().substring(6));
+		File myFile = new File("C:\\Users\\samet.cavur\\sts4workspace\\ReCapProject\\ReCapProject\\images\\" + imageNameRandom + "." + createCarImagesRequest.getFile().getContentType().toString().substring(6));
 		myFile.createNewFile();
-		FileOutputStream fos = new FileOutputStream(myFile);
-		fos.write(createCarImagesRequest.getFile().getBytes());
-		fos.close();
+		FileOutputStream fileOutputStream = new FileOutputStream(myFile);
+		fileOutputStream.write(createCarImagesRequest.getFile().getBytes());
+		fileOutputStream.close();
 
 
 		Car car = new Car();
@@ -69,7 +69,7 @@ public class CarImagesManager implements CarImagesService {
 
 		carImages.setDate(dateNow);
 		carImages.setCar(car);
-		carImages.setImagePath(imageNameRandom);
+		carImages.setImagePath(myFile.getPath());
 
 		this.carImagesDao.save(carImages);
 		return new SuccessResult(true, Messages.Add);
@@ -92,16 +92,31 @@ public class CarImagesManager implements CarImagesService {
 	}
 
 	@Override
-	public Result update(UpdateCarImagesRequest updateCarImagesRequest) {
+	public Result update(UpdateCarImagesRequest updateCarImagesRequest)throws IOException {
+		var result = BusinessRules.run(checkIfCarHasMoreThanFiveImages(updateCarImagesRequest.getCarId(), 5), checkImageIsNullOrCheckImageTypeIsWrong(updateCarImagesRequest.getFile()));
+		if (result != null) {
+			return result;
+		}
+
+		CarImages carImages = new CarImages();
+		Date dateNow = new java.sql.Date(new java.util.Date().getTime());
+
+		String imageNameRandom = UUID.randomUUID().toString();
+
+		File myFile = new File("C:\\Users\\samet.cavur\\sts4workspace\\ReCapProject\\ReCapProject\\images\\" + imageNameRandom + "." + updateCarImagesRequest.getFile().getContentType().toString().substring(6));
+		myFile.createNewFile();
+		FileOutputStream fileOutputStream = new FileOutputStream(myFile);
+		fileOutputStream.write(updateCarImagesRequest.getFile().getBytes());
+		fileOutputStream.close();
+
 
 		Car car = new Car();
 		car.setId(updateCarImagesRequest.getCarId());
 
-		CarImages carImages = new CarImages();
-		carImages.setId(updateCarImagesRequest.getId());
-		carImages.setDate(updateCarImagesRequest.getDate());
-
+		carImages.setDate(dateNow);
 		carImages.setCar(car);
+		carImages.setImagePath(imageNameRandom);
+		carImages.setId(updateCarImagesRequest.getId());
 
 		this.carImagesDao.save(carImages);
 		return new SuccessResult(true, Messages.Update);
@@ -116,7 +131,7 @@ public class CarImagesManager implements CarImagesService {
 	
 	
 
-	private Result checkImageIsNullOrCheckImageType(MultipartFile file) throws IOException {
+	private Result checkImageIsNullOrCheckImageTypeIsWrong(MultipartFile file) throws IOException {
 		
 		if (file == null) {
 			return new ErrorResult(Messages.ErrorCarImageNull);
@@ -139,14 +154,11 @@ public class CarImagesManager implements CarImagesService {
 
 		List<CarImages> carImages = new ArrayList<CarImages>();
 		CarImages carImage = new CarImages();
-		carImage.setImagePath("C:\\Users\\ozkan.demircan\\Desktop\\İmg\\default.jpg");
+		carImage.setImagePath("C:\\Users\\samet.cavur\\Desktop\\İmg\\default.jpg");
 
 		carImages.add(carImage);
 
 		return new SuccessDataResult<List<CarImages>>(carImages, Messages.GetAll);
-	
-	
-	
 	
 	}
 }

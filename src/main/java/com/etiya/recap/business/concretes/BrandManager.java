@@ -5,10 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import com.etiya.recap.business.abstracts.BrandService;
 import com.etiya.recap.business.constants.Messages;
+import com.etiya.recap.core.utilities.business.BusinessRules;
 import com.etiya.recap.core.utilities.results.DataResult;
+import com.etiya.recap.core.utilities.results.ErrorResult;
 import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.core.utilities.results.SuccessDataResult;
 import com.etiya.recap.core.utilities.results.SuccessResult;
@@ -39,6 +40,13 @@ public class BrandManager implements BrandService{
 		Brand brand=new Brand();
 		brand.setBrandName(createBrandRequest.getBrandName());
 		
+		var result=BusinessRules.run(checkBrandName(createBrandRequest.getBrandName()));
+		
+		if(result!=null)
+		{
+			return result;
+		}
+		
 		this.brandDao.save(brand);
 		return new SuccessResult(true, Messages.Add);
 	}
@@ -60,12 +68,32 @@ public class BrandManager implements BrandService{
 	@Override
 	public Result update(UpdateBrandRequest updateBrandRequest) {
 		
+       var result=BusinessRules.run(checkBrandName(updateBrandRequest.getBrandName()));
+		
+		if(result!=null)
+		{
+			return result;
+		}
+		
+		
 		Brand brand=new Brand();
 		brand.setBrandId(updateBrandRequest.getId());
 		brand.setBrandName(updateBrandRequest.getBrandName());
 		
+		
+		
 		this.brandDao.save(brand);
 		return new SuccessResult(true, Messages.Update);
 		
+	}
+	
+	private Result checkBrandName(String brandName)
+	{
+		  if(this.brandDao.existsBrandBybrandName(brandName))
+		  {
+			  return new ErrorResult(Messages.ErrorCheckBrandName);
+		  }
+		  
+		  return new SuccessResult();
 	}
 }
