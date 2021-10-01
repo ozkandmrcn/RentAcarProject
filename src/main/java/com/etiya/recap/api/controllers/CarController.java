@@ -22,6 +22,7 @@ import com.etiya.recap.entities.dtos.CarDetailDto;
 import com.etiya.recap.entities.dtos.CarDetailWithCarImgDto;
 import com.etiya.recap.entities.requests.create.CreateCarRequest;
 import com.etiya.recap.entities.requests.delete.DeleteCarRequest;
+import com.etiya.recap.entities.requests.update.UpdateCarAvailableRequest;
 import com.etiya.recap.entities.requests.update.UpdateCarRequest;
 
 
@@ -46,13 +47,28 @@ public class CarController {
 		return this.carService.getAll();
 	}
 	
-	@GetMapping("/getcarbyid")
-	public  DataResult<Car> getCarById(int id) {
+	@GetMapping("/getallcarsincare")
+	public DataResult<List<Car>> getAllCarsInCare(){
+		return this.carService.getAllCarsInCare();
+	}
+	
+	@GetMapping("/getallcarsarenotincare")
+	public DataResult<List<Car>> getAllCarsAreNotInCare(){
+		return this.carService.getAllCarsNotInCare();
+	}
+	
+	@GetMapping("/getcarsbycityname")
+	public DataResult<List<Car>> getCarsByCityName(String city) {
+		return this.carService.getCarsByCityName(city);
+	}
+	
+	@GetMapping("/getcarbycarid")
+	public  DataResult<Car> getCarByCarId(int id) {
 		return this.carService.getById(id);
 	}
 	
-	@GetMapping("/getallcarswithdetail")
-	public DataResult<List<CarDetailDto>> getCarsWithDetail() {
+	@GetMapping("/getallcarswithlessdetail")
+	public DataResult<List<CarDetailDto>> getCarsWithLessDetail() {
 		return this.carService.getAllCarsWithDetail();
 	}
 	
@@ -71,6 +87,11 @@ public class CarController {
 	public ResponseEntity<?> updateCar(@Valid @RequestBody UpdateCarRequest updateCarRequest) {
 		return ResponseEntity.ok(this.carService.update(updateCarRequest));
 	}
+	
+	@PostMapping("/updatecarisavailable")
+	public ResponseEntity<?> updateCarIsAvailable(@Valid @RequestBody UpdateCarAvailableRequest updateCarAvailableRequest) {
+		return ResponseEntity.ok(this.carService.updateCarAvailable(updateCarAvailableRequest));
+	}
 
 	@GetMapping("/getcarbybrandid")
 	public  DataResult<List<Car>> getCarByBrandId(int brandId) {
@@ -82,8 +103,8 @@ public class CarController {
 		return this.carService.getCarByColorId(colorId);
 	}
 	
-	@GetMapping("/getcardetailwithcarimg")
-	public  DataResult<List<CarDetailWithCarImgDto>> getCarDetailWithCarImg(int id) {
+	@GetMapping("/getcarlessdetailwithcarimg")
+	public  DataResult<List<CarDetailWithCarImgDto>> getCarLessDetailWithCarImg(int id) {
 		return this.carService.getCarWithCarImgByCarId(id);
 	}
 	

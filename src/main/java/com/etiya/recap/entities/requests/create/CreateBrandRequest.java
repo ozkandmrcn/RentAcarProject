@@ -15,8 +15,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CreateBrandRequest {
 
-	
-
 	@NotBlank(message = "Boş olamaz")
 	@NotNull
 	@Size(min = 2, max = 30)

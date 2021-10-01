@@ -17,6 +17,7 @@ import com.etiya.recap.business.abstracts.RentalService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
 import com.etiya.recap.entities.concretes.Rental;
+import com.etiya.recap.entities.requests.create.CreateDeliverTheCar;
 import com.etiya.recap.entities.requests.create.CreateRentalRequest;
 import com.etiya.recap.entities.requests.delete.DeleteRentalRequest;
 import com.etiya.recap.entities.requests.update.UpdateRentalRequest;
@@ -34,16 +35,16 @@ public class RentalController {
 		this.rentalService = rentalService;
 	}
 	
-	@PostMapping("/addcorporatecustomerrental")
-	public ResponseEntity<?> addCorporateCustomerRental(@Valid  @RequestBody CreateRentalRequest createRentalRequest) {
+	@PostMapping("/renttocorporatecustomer")
+	public ResponseEntity<?> rentToCorporateCustomer(@Valid  @RequestBody CreateRentalRequest createRentalRequest) {
 		return ResponseEntity.ok(this.rentalService.rentCorporateCustomer(createRentalRequest)) ;
 	}
 	
-	@PostMapping("/addindividualcustomerrental")
-	public ResponseEntity<?> addIndividualCustomerRental(@Valid  @RequestBody CreateRentalRequest createRentalRequest) {
+	@PostMapping("/renttoindividualcustomer")
+	public ResponseEntity<?> rentToIndividualCustomer(@Valid  @RequestBody CreateRentalRequest createRentalRequest) {
 		return ResponseEntity.ok(this.rentalService.rentIndividualCustomer(createRentalRequest)) ;
 	}
-
+	
 	@GetMapping("/getallrentals")
 	public DataResult<List<Rental>> getAllRentals() {
 		return this.rentalService.getAll();
@@ -69,4 +70,16 @@ public class RentalController {
 	public ResponseEntity<?> updateIndividualRental(@Valid @RequestBody  UpdateRentalRequest updateRentalRequest) {
 		return ResponseEntity.ok(this.rentalService.updateIndividualCustomerRent(updateRentalRequest));
 	}
+	
+	@PostMapping("/delivercorporatecustomercar")
+	public Result deliverCorporateCustomerCar(@RequestBody   CreateDeliverTheCar createDeliverTheCar) {
+		return this.rentalService.deliverCorporateCustomerCar(createDeliverTheCar);
+	}
+	
+	@PostMapping("/deliverindividualcustomercar")
+	public	Result deliverIndividualCustomerCar(@RequestBody CreateDeliverTheCar createDeliverTheCar) {
+		return this.rentalService.deliverIndividualCustomerCar(createDeliverTheCar);
+	}
+	
+	
 }

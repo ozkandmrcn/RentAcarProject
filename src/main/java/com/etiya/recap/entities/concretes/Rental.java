@@ -1,6 +1,7 @@
 package com.etiya.recap.entities.concretes;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -24,7 +26,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" ,"additionalServices"})
 public class Rental {
 
 	@Id
@@ -37,7 +39,16 @@ public class Rental {
 
 	@Column(name = "return_date")
 	private Date returnDate;
-
+	
+	@Column(name = "rentalStartingCity")
+	private String rentalStartingCity;
+	
+	@Column(name = "returnCity")
+	private String returnCity;
+	
+	@Column(name = "kilometer")
+	private int kilometer;
+	
 	@ManyToOne
 	@JoinColumn(name = "car_id")
 	private Car car;
@@ -45,5 +56,12 @@ public class Rental {
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private ApplicationUser user;
+	
+	@OneToMany
+	private List<AdditionalServices> additionalServices;
+	
+
+	
+	
 
 }

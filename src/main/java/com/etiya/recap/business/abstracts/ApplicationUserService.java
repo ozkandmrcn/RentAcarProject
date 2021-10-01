@@ -12,6 +12,7 @@ import com.etiya.recap.entities.requests.update.UpdateApplicationUserRequest;
 
 public interface ApplicationUserService {
 	
+	
 	DataResult<List<ApplicationUser>> getAll();
 	
 	DataResult<ApplicationUser> getById(int id);
@@ -19,6 +20,8 @@ public interface ApplicationUserService {
 	Result delete(DeleteApplicationUserRequest deleteApplicationUserRequest);
 	
 	Result update(UpdateApplicationUserRequest updateApplicationUserRequest);
+	
+	
 	
 	
 	Result userLogin(CreateUserLoginRequest createUserLoginRequest);

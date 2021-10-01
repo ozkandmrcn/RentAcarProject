@@ -20,6 +20,7 @@ import com.etiya.recap.entities.dtos.CarDetailDto;
 import com.etiya.recap.entities.dtos.CarDetailWithCarImgDto;
 import com.etiya.recap.entities.requests.create.CreateCarRequest;
 import com.etiya.recap.entities.requests.delete.DeleteCarRequest;
+import com.etiya.recap.entities.requests.update.UpdateCarAvailableRequest;
 import com.etiya.recap.entities.requests.update.UpdateCarRequest;
 
 @Service
@@ -36,10 +37,24 @@ public class CarManager implements CarService {
 	public DataResult<List<Car>> getAll() {
 		return new SuccessDataResult<List<Car>>(this.carDao.findAll(), Messages.GetAll);
 	}
+	
+	@Override
+	public DataResult<List<Car>> getCarsByCityName(String city) {
+		return new SuccessDataResult<List<Car>>(this.carDao.getCars_ByCity(city), Messages.GetAll);
+	}
+
+	@Override
+	public DataResult<List<Car>> getAllCarsInCare() {
+		return new SuccessDataResult<List<Car>>(this.carDao.getCarsAreNotAvailable(), Messages.GetAll);
+	}
+
+	@Override
+	public DataResult<List<Car>> getAllCarsNotInCare() {
+		return new SuccessDataResult<List<Car>>(this.carDao.getCarsAreAvailable(), Messages.GetAll);
+	}
 
 	@Override
 	public Result add(CreateCarRequest createCarRequest) {
-		
 		Brand brand = new Brand();
 		brand.setBrandId(createCarRequest.getBrandId());
 
@@ -51,9 +66,10 @@ public class CarManager implements CarService {
 		car.setDailyPrice(createCarRequest.getDailyPrice());
 		car.setDescription(createCarRequest.getDescription());
 		car.setFindeksScore(createCarRequest.getFindeksScore());
+		car.setCity(createCarRequest.getCity());
+		car.setKilometer(createCarRequest.getKilometer());
 		car.setBrand(brand);
 		car.setColor(color);
-		
 		
 		this.carDao.save(car);
      	return new SuccessResult(true, Messages.Add);
@@ -82,15 +98,26 @@ public class CarManager implements CarService {
 		Color color = new Color();
 		color.setColorId(updateCarRequest.getColorId());
 
-		Car car = new Car();
+		Car car = this.carDao.getById(updateCarRequest.getId());
 		car.setId(updateCarRequest.getId());
 		car.setModelYear(updateCarRequest.getModelYear());
 		car.setDailyPrice(updateCarRequest.getDailyPrice());
 		car.setDescription(updateCarRequest.getDescription());
 		car.setFindeksScore(updateCarRequest.getFindeksScore());
+		car.setCity(updateCarRequest.getCity());
+		car.setKilometer(updateCarRequest.getKilometer());
+		car.setCarIsAvailable(updateCarRequest.isCarIsAvailable());
 		car.setBrand(brand);
 		car.setColor(color);
 
+		this.carDao.save(car);
+		return new SuccessResult(true, Messages.Update);
+	}
+	
+	@Override
+	public Result updateCarAvailable(UpdateCarAvailableRequest updateCarAvailableRequest) {
+		Car car = this.carDao.getById(updateCarAvailableRequest.getId());
+		car.setCarIsAvailable(updateCarAvailableRequest.isCarIsAvailable());
 		this.carDao.save(car);
 		return new SuccessResult(true, Messages.Update);
 	}
@@ -123,6 +150,6 @@ public class CarManager implements CarService {
 		
         return new SuccessDataResult<List<CarDetailWithCarImgDto>>(cars, Messages.GetAll);
 	}
-	
+
 }
 	

@@ -25,7 +25,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "rentals", "carImages" })
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "rentals", "carImages","carCares","carDamageInformations"})
 public class Car {
 
 	@Id
@@ -44,6 +44,15 @@ public class Car {
 
 	@Column(name = "findeksScore")
 	private int findeksScore;
+	
+	@Column(name = "city")
+	private String city;
+	
+	@Column(name = "kilometer")
+	private int kilometer;
+	
+	@Column(name = "carIsAvailable")
+	private boolean carIsAvailable = true;
 
 	@ManyToOne
 	@JoinColumn(name = "brand_id")
@@ -58,5 +67,12 @@ public class Car {
 
 	@OneToMany(mappedBy = "car")
 	private List<CarImages> carImages;
+	
+	@OneToMany(mappedBy = "car")
+	private List<CarCare> carCares;
+	
+	@OneToMany(mappedBy = "car")
+	private List<CarDamageInformation> carDamageInformations;
+	
 
 }

@@ -24,7 +24,6 @@ public class CreateCreditCardRequest {
 
 	@NotBlank(message = "Boş olamaz")
 	@NotNull
-	@Size(min = 2, max = 30)
 	private String cardNumber;
 
 	@NotNull(message = "Boş olamaz")

@@ -65,7 +65,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 		ApplicationUser applicationUser=new ApplicationUser();
 		applicationUser.setUserId(updateIndividualCustomerRequest.getUserId());
 
-		IndividualCustomer individualCustomer = new IndividualCustomer();
+		IndividualCustomer individualCustomer = this.individualCustomerDao.getById(updateIndividualCustomerRequest.getId());
 		individualCustomer.setApplicationUser(applicationUser);
 		individualCustomer.setCustomerId(updateIndividualCustomerRequest.getId());
 		individualCustomer.setFirstName(updateIndividualCustomerRequest.getFirstName());

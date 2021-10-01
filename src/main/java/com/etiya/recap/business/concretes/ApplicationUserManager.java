@@ -55,7 +55,7 @@ public class ApplicationUserManager implements ApplicationUserService {
 	@Override
 	public Result update(UpdateApplicationUserRequest updateApplicationUserRequest) {
 
-		ApplicationUser applicationUser = new ApplicationUser();
+		ApplicationUser applicationUser = this.applicationUserDao.getById(updateApplicationUserRequest.getId());
 		applicationUser.setUserId(updateApplicationUserRequest.getId());
 		applicationUser.setEmail(updateApplicationUserRequest.getEmail());
 		applicationUser.setPassword(updateApplicationUserRequest.getPassword());
@@ -77,9 +77,9 @@ public class ApplicationUserManager implements ApplicationUserService {
 		if (result != null) {
 			return result;
 		}
-
 		return new SuccessResult(true, Messages.SuccessLogin);
 	}
+	
 	@Override
 	public Result userRegister(CreateUserRegisterRequest createUserRegisterRequest) {
 
@@ -97,6 +97,8 @@ public class ApplicationUserManager implements ApplicationUserService {
 		return new SuccessResult(true, Messages.SuccessRegister);
 	}
 
+	
+	
 	// Kayıt olurken aynı email daha önce kullanılmış mı
 	private Result checkEmailForRegister(ApplicationUser applicationUser) {
 		for (String email : this.applicationUserDao.getEmails()) {

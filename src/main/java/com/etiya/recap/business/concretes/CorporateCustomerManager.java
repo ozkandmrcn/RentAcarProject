@@ -63,7 +63,7 @@ public class CorporateCustomerManager implements CorporateCustomerService{
 		ApplicationUser applicationUser=new ApplicationUser();
 		applicationUser.setUserId(updateCorporateCustomerRequest.getUserId());
 
-		CorporateCustomer corporateCustomer = new CorporateCustomer();
+		CorporateCustomer corporateCustomer = this.corporateCustomerDao.getById(updateCorporateCustomerRequest.getId());
 		
 		corporateCustomer.setCompanyName(updateCorporateCustomerRequest.getCompanyName());
 		corporateCustomer.setTaxNumber(updateCorporateCustomerRequest.getTaxNumber());

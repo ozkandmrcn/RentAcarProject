@@ -18,6 +18,10 @@ public class CarDetailWithCarImgDto {
 	private String colorName;
 
 	private double dailyPrice;
+	
+	private String city;
+	
+	private int kilometer;
 
 	private String carImages;
 

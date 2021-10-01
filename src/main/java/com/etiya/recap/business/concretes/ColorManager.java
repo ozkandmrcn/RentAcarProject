@@ -58,7 +58,7 @@ public class ColorManager implements ColorService{
 
 	@Override
 	public Result update(UpdateColorRequest updateColorRequest) {
-		Color color=new Color();
+		Color color=this.colorDao.getById(updateColorRequest.getId());
 		color.setColorId(updateColorRequest.getId());
 		color.setColorName(updateColorRequest.getColorName());
 		

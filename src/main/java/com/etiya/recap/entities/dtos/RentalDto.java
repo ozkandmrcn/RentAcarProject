@@ -16,8 +16,9 @@ public class RentalDto {
 	private Date returnDate;
 	private int carId;
 	private int customerId;
+	private String rentalStartingCity;
+	private String returnCity;
+	private int kilometer;
 	
 	
-	
-
 }

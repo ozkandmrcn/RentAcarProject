@@ -34,7 +34,7 @@ public class CreditCardController {
 	}
 	
 	@PostMapping("/addcreditcard")
-	public Result addBrand(@Valid @RequestBody CreateCreditCardRequest createCreditCardRequest){
+	public Result addCreditCard(@Valid @RequestBody CreateCreditCardRequest createCreditCardRequest){
 		return this.creditCardService.add(createCreditCardRequest) ;
 	}
 	

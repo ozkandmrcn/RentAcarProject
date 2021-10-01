@@ -2,6 +2,7 @@ package com.etiya.recap.entities.requests.create;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -23,14 +24,26 @@ public class CreateCarRequest {
 	@Min(0)
 	private double dailyPrice;
 
-	private String description;
-
 	@NotNull
 	@Min(0)
 	@Max(1900)
 	private int findeksScore;
+	
+	@NotNull
+	@NotBlank
+	private String city;
+	
+	@NotNull
+	private int kilometer;
+	
+	@NotBlank
+	@NotNull
+	private String description;
 
+	@NotNull
 	private int brandId;
+	
+	@NotNull
 	private int colorId;
 
 }

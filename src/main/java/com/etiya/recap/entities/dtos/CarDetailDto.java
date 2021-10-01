@@ -19,5 +19,9 @@ public class CarDetailDto {
 
 	private double dailyPrice;
 	
+	private String city;
+	
+	private int kilometer;
+	
 
 }
