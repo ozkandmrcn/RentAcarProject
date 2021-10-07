@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.recap.business.abstracts.ApplicationUserService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.ApplicationUser;
-import com.etiya.recap.entities.requests.create.CreateUserLoginRequest;
-import com.etiya.recap.entities.requests.create.CreateUserRegisterRequest;
-import com.etiya.recap.entities.requests.delete.DeleteApplicationUserRequest;
-import com.etiya.recap.entities.requests.update.UpdateApplicationUserRequest;
+import com.etiya.recap.entities.dtos.ApplicationUserDto;
+import com.etiya.recap.entities.requests.applicationUserRequests.CreateUserLoginRequest;
+import com.etiya.recap.entities.requests.applicationUserRequests.CreateUserRegisterRequest;
+import com.etiya.recap.entities.requests.applicationUserRequests.DeleteApplicationUserRequest;
+import com.etiya.recap.entities.requests.applicationUserRequests.UpdateApplicationUserRequest;
 
 @RestController
 @RequestMapping("/api/users")
@@ -35,12 +35,12 @@ public class UserController {
 	}
 
 	@GetMapping("/getallusers")
-	public DataResult<List<ApplicationUser>> getAllUsers() {
+	public DataResult<List<ApplicationUserDto>> getAllUsers() {
 		return this.applicationUserService.getAll();
 	}
 	
 	@GetMapping("/getuserbyid")
-	public  DataResult<ApplicationUser> getUserById(int id) {
+	public  DataResult<ApplicationUserDto> getUserById(int id) {
 		return this.applicationUserService.getById(id);
 	}
 	

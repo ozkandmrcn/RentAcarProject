@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.recap.business.abstracts.IndividualCustomerService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.IndividualCustomer;
-import com.etiya.recap.entities.requests.create.CreateIndividualCustomerRequest;
-import com.etiya.recap.entities.requests.delete.DeleteIndividualCustomerRequest;
-import com.etiya.recap.entities.requests.update.UpdateIndividualCustomerRequest;
+import com.etiya.recap.entities.dtos.IndividualCustomerDto;
+import com.etiya.recap.entities.requests.individualCustomerRequests.CreateIndividualCustomerRequest;
+import com.etiya.recap.entities.requests.individualCustomerRequests.DeleteIndividualCustomerRequest;
+import com.etiya.recap.entities.requests.individualCustomerRequests.UpdateIndividualCustomerRequest;
 
 @RestController
 @RequestMapping("/api/individualcustomers")
@@ -38,12 +38,12 @@ public class IndividualCustomerController {
 	}
 
 	@GetMapping("/getallindividualcustomers")
-	public DataResult<List<IndividualCustomer>> getAllIndividualCustomers() {
+	public DataResult<List<IndividualCustomerDto>> getAllIndividualCustomers() {
 		return this.individualCustomerService.getAll();
 	}
 	
 	@GetMapping("/getindividualcustomerbyid")
-	public  DataResult<IndividualCustomer> getIndividualCustomerById(int id) {
+	public  DataResult<IndividualCustomerDto> getIndividualCustomerById(int id) {
 		return this.individualCustomerService.getById(id);
 	}
 	

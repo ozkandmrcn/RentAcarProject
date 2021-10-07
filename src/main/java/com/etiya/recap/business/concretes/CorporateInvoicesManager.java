@@ -1,14 +1,15 @@
 package com.etiya.recap.business.concretes;
 
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.recap.business.abstracts.CorporateInvoicesService;
-import com.etiya.recap.business.constants.Messages;
+import com.etiya.recap.business.constants.messages.CorporateInvoicesMessages;
 import com.etiya.recap.core.services.queue.InvoiceService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
@@ -17,16 +18,15 @@ import com.etiya.recap.core.utilities.results.SuccessResult;
 import com.etiya.recap.dataAccess.abstracts.CorporateCustomerDao;
 import com.etiya.recap.dataAccess.abstracts.CorporateInvoicesDao;
 import com.etiya.recap.dataAccess.abstracts.RentalDao;
-import com.etiya.recap.entities.concretes.AdditionalServices;
 import com.etiya.recap.entities.concretes.ApplicationUser;
 import com.etiya.recap.entities.concretes.CorporateCustomer;
 import com.etiya.recap.entities.concretes.CorporateInvoices;
 import com.etiya.recap.entities.concretes.Rental;
-import com.etiya.recap.entities.dtos.CorporateCustomerInvoiceDto;
-import com.etiya.recap.entities.requests.InvoiceBetweenDateRequest;
-import com.etiya.recap.entities.requests.create.CreateInvoicesRequest;
-import com.etiya.recap.entities.requests.delete.DeleteInvoicesRequest;
-import com.etiya.recap.entities.requests.update.UpdateInvoicesRequest;
+import com.etiya.recap.entities.dtos.CorporateCustomerInvoiceExampleDto;
+import com.etiya.recap.entities.dtos.CorporateInvoicesDto;
+import com.etiya.recap.entities.requests.invoiceRequests.CreateInvoiceBetweenDateRequest;
+import com.etiya.recap.entities.requests.invoiceRequests.CreateInvoicesRequest;
+import com.etiya.recap.entities.requests.invoiceRequests.DeleteInvoicesRequest;
 
 @Service
 public class CorporateInvoicesManager implements CorporateInvoicesService {
@@ -35,18 +35,23 @@ public class CorporateInvoicesManager implements CorporateInvoicesService {
 	private RentalDao rentalDao;
 	private CorporateCustomerDao corporateCustomerDao;
 	private InvoiceService invoiceService;
+	private final ModelMapper modelMapper;
 
 	@Autowired
-	public CorporateInvoicesManager(CorporateInvoicesDao corporateInvoicesDao, RentalDao rentalDao,CorporateCustomerDao corporateCustomerDao,InvoiceService invoiceService) {
+	public CorporateInvoicesManager(CorporateInvoicesDao corporateInvoicesDao, RentalDao rentalDao,CorporateCustomerDao corporateCustomerDao
+			,InvoiceService invoiceService,ModelMapper modelMapper) {
 		this.corporateInvoicesDao = corporateInvoicesDao;
 		this.rentalDao = rentalDao;
 		this.corporateCustomerDao = corporateCustomerDao;
 		this.invoiceService=invoiceService;
+		this.modelMapper = modelMapper;
 	}
 
 	@Override
-	public DataResult<List<CorporateInvoices>> getAll() {
-		return new SuccessDataResult<List<CorporateInvoices>>(this.corporateInvoicesDao.findAll(), Messages.GetAll);
+	public DataResult<List<CorporateInvoicesDto>> getAll() {
+		List<CorporateInvoices> corporateInvoices = this.corporateInvoicesDao.findAll();
+		List<CorporateInvoicesDto> corporateInvoicesDtos = corporateInvoices.stream().map(corporate -> modelMapper.map(corporate, CorporateInvoicesDto.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<CorporateInvoicesDto>>(corporateInvoicesDtos, CorporateInvoicesMessages.GetAll);
 	}
 
 	@Override
@@ -69,77 +74,46 @@ public class CorporateInvoicesManager implements CorporateInvoicesService {
 		corporateInvoices.setCorporateCustomer(corporateCustomer);
 
 		this.corporateInvoicesDao.save(corporateInvoices);
-		return new SuccessResult(true, Messages.Add);
+		return new SuccessResult(true, CorporateInvoicesMessages.Add);
 	}
 
 	@Override
-	public DataResult<CorporateInvoices> getById(int id) {
-		return new SuccessDataResult<CorporateInvoices>(this.corporateInvoicesDao.getById(id), Messages.GetById);
+	public DataResult<CorporateInvoicesDto> getById(int id) {
+		CorporateInvoices corporateInvoices = this.corporateInvoicesDao.getById(id);
+		CorporateInvoicesDto corporateInvoicesDto = modelMapper.map(corporateInvoices, CorporateInvoicesDto.class);
+		return new SuccessDataResult<CorporateInvoicesDto>(corporateInvoicesDto, CorporateInvoicesMessages.GetById);
 	}
 	
 	@Override
-	public DataResult<CorporateCustomerInvoiceDto> getCorporateInvoiceDtoByInvoiceId(int invoiceId) {
+	public DataResult<CorporateCustomerInvoiceExampleDto> getCorporateInvoiceDtoByInvoiceId(int invoiceId) {
 		CorporateInvoices corporateInvoices = this.corporateInvoicesDao.getById(invoiceId);
 		CorporateCustomer corporateCustomer = this.corporateCustomerDao.getById(corporateInvoices.getCorporateCustomer().getCustomerId());
 		
-		
-		return new SuccessDataResult<CorporateCustomerInvoiceDto>(this.invoiceService.invoiceCorporateCustomer(corporateCustomer, corporateInvoices), "CorporateGeldi");
+		return new SuccessDataResult<CorporateCustomerInvoiceExampleDto>(this.invoiceService.invoiceCorporateCustomer(corporateCustomer, corporateInvoices), CorporateInvoicesMessages.GetCorporateInvoiceDtoByInvoiceId);
 	}
 	
 
 	@Override
 	public Result delete(DeleteInvoicesRequest deleteInvoicesRequest) {
-		CorporateInvoices corporateInvoices = new CorporateInvoices();
-		corporateInvoices.setId(deleteInvoicesRequest.getId());
+		CorporateInvoices corporateInvoices =modelMapper.map(deleteInvoicesRequest, CorporateInvoices.class);
+	
 		this.corporateInvoicesDao.delete(corporateInvoices);
-		return new SuccessResult(true, Messages.Delete);
+		return new SuccessResult(true, CorporateInvoicesMessages.Delete);
 	}
 
 	@Override
-	public Result update(UpdateInvoicesRequest updateInvoicesRequest) {
-
-		Rental rental = this.rentalDao.getById(updateInvoicesRequest.getRentalId());
-
-		long totalRentDateCount = ChronoUnit.DAYS.between(rental.getRentDate().toInstant(),
-				rental.getReturnDate().toInstant());
-		double rentPrice = (rental.getCar().getDailyPrice() * totalRentDateCount);
-		
-		//Hizmet bedelleri
-		for (AdditionalServices additionalService : rental.getAdditionalServices()) {
-			if(additionalService.getAdditionalServiceName().equals("BebekKoltugu")) {
-				rentPrice+=additionalService.getAdditionalServicePrice();
-			}
-			if(additionalService.getAdditionalServiceName().equals("Scooter")) {
-				 rentPrice+=additionalService.getAdditionalServicePrice();
-			}
-			if(additionalService.getAdditionalServiceName().equals("Insurance")) {
-				 rentPrice+=additionalService.getAdditionalServicePrice();
-			}
+	public DataResult<List<CorporateInvoicesDto>> getCorporateInvoicesByCustomerId(int customerId) {
+		List<CorporateInvoices> corporateInvoices = this.corporateInvoicesDao.getCorporateInvoicesByCustomerId(customerId);
+		List<CorporateInvoicesDto> corporateInvoicesDtos = corporateInvoices.stream().map(corporate -> modelMapper.map(corporate, CorporateInvoicesDto.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<CorporateInvoicesDto>>(corporateInvoicesDtos, CorporateInvoicesMessages.GetCorporateInvoicesByCustomerId);
+	}
+	
+	@Override
+	public DataResult<List<CorporateInvoicesDto>> getCorporateInvoicesBetweenTwoDate(CreateInvoiceBetweenDateRequest createInvoiceBetweenDateRequest) {
+		List<CorporateInvoices> corporateInvoices = this.corporateInvoicesDao.getByCreationDateBetween(createInvoiceBetweenDateRequest.getMinDate(),createInvoiceBetweenDateRequest.getMaxDate());
+		List<CorporateInvoicesDto> corporateInvoicesDtos = corporateInvoices.stream().map(corporate -> modelMapper.map(corporate, CorporateInvoicesDto.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<CorporateInvoicesDto>>(corporateInvoicesDtos, CorporateInvoicesMessages.GetCorporateInvoicesBetweenTwoDate);
 		}
-
-		Random randomInvoiceNumber = new Random();
-
-		CorporateInvoices corporateInvoices = this.corporateInvoicesDao.getById(updateInvoicesRequest.getId());
-		corporateInvoices.setCreationDate(updateInvoicesRequest.getCreationDate());
-		corporateInvoices.setInvoiceNumber(randomInvoiceNumber.nextInt((9999 - 1111) + 1) + 1111);
-		corporateInvoices.setRentDateCount(totalRentDateCount);
-		corporateInvoices.setRentPrice(rentPrice);
-		corporateInvoices.setRental(this.rentalDao.getById(updateInvoicesRequest.getRentalId()));
-
-		this.corporateInvoicesDao.save(corporateInvoices);
-		return new SuccessResult(true, Messages.Update);
 	}
 
-	@Override
-	public DataResult<List<CorporateInvoices>> getCorporateInvoicesByCustomerId(int customerId) {
-		return new SuccessDataResult<List<CorporateInvoices>>(this.corporateInvoicesDao.getCorporateInvoicesByCustomerId(customerId),Messages.GetAll);
-	}
 
-	@Override
-	public DataResult<List<CorporateInvoices>> getCorporateInvoicesBetweenTwoDate(InvoiceBetweenDateRequest invoiceBetweenDateRequest) {
-		
-		return new SuccessDataResult<List<CorporateInvoices>>(this.corporateInvoicesDao.getByCreationDateBetween(invoiceBetweenDateRequest.getMinDate(),invoiceBetweenDateRequest.getMaxDate()),Messages.GetAll);
-
-	}
-
-}

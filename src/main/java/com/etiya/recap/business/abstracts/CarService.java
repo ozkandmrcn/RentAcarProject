@@ -4,30 +4,28 @@ import java.util.List;
 
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.Car;
-import com.etiya.recap.entities.concretes.CarImages;
 import com.etiya.recap.entities.dtos.CarDetailDto;
 import com.etiya.recap.entities.dtos.CarDetailWithCarImgDto;
-import com.etiya.recap.entities.requests.create.CreateCarRequest;
-import com.etiya.recap.entities.requests.delete.DeleteCarRequest;
-import com.etiya.recap.entities.requests.update.UpdateCarAvailableRequest;
-import com.etiya.recap.entities.requests.update.UpdateCarRequest;
+import com.etiya.recap.entities.requests.carRequests.CreateCarRequest;
+import com.etiya.recap.entities.requests.carRequests.DeleteCarRequest;
+import com.etiya.recap.entities.requests.carRequests.UpdateCarAvailableRequest;
+import com.etiya.recap.entities.requests.carRequests.UpdateCarRequest;
 
 public interface CarService {
 
-	DataResult<List<Car>> getAll();
+	DataResult<List<CarDetailDto>> getAll();
 
-	DataResult<List<Car>> getAllCarsInCare();
+	DataResult<List<CarDetailDto>> getAllCarsInCare();
 
-	DataResult<List<Car>> getAllCarsNotInCare();
+	DataResult<List<CarDetailDto>> getAllCarsNotInCare();
 
-	DataResult<List<Car>> getCarsByCityName(String city);
+	DataResult<List<CarDetailDto>> getCarsByCityId(int city);
 
-	DataResult<Car> getById(int id);
+	DataResult<CarDetailDto> getById(int id);
 
-	DataResult<List<Car>> getCarByColorId(int colorId);
+	DataResult<List<CarDetailDto>> getCarByColorId(int colorId);
 
-	DataResult<List<Car>> getCarByBrandId(int brandId);
+	DataResult<List<CarDetailDto>> getCarByBrandId(int brandId);
 
 	Result add(CreateCarRequest createCarRequest);
 
@@ -38,11 +36,8 @@ public interface CarService {
 	Result updateCarAvailable(UpdateCarAvailableRequest updateCarAvailableRequest);
 	
 	
-	
 
 	DataResult<List<CarDetailWithCarImgDto>> getCarWithCarImgByCarId(int id);
 
-	DataResult<List<CarImages>> getCarImagesByCarId(int carId);
 
-	DataResult<List<CarDetailDto>> getAllCarsWithDetail();
 }

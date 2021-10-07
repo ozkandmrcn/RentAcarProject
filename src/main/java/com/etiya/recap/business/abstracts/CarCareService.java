@@ -4,18 +4,18 @@ import java.util.List;
 
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.CarCare;
-import com.etiya.recap.entities.requests.create.CreateCarCareRequest;
-import com.etiya.recap.entities.requests.delete.DeleteCarCareRequest;
-import com.etiya.recap.entities.requests.update.UpdateCarCareRequest;
+import com.etiya.recap.entities.dtos.CarCareDto;
+import com.etiya.recap.entities.requests.carCareRequests.CreateCarCareRequest;
+import com.etiya.recap.entities.requests.carCareRequests.DeleteCarCareRequest;
+import com.etiya.recap.entities.requests.carCareRequests.UpdateCarCareRequest;
 
 public interface CarCareService {
 	
-	DataResult<List<CarCare>> getAll();
+	DataResult<List<CarCareDto>> getAll();
 
 	Result sendCarToCare(CreateCarCareRequest createCarCareRequest);
 	
-	DataResult<CarCare> getById(int id);
+	DataResult<CarCareDto> getById(int id);
 	
 	Result delete(DeleteCarCareRequest deleteCarCareRequest);
 	

@@ -4,23 +4,22 @@ import java.util.List;
 
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.ApplicationUser;
-import com.etiya.recap.entities.requests.create.CreateUserLoginRequest;
-import com.etiya.recap.entities.requests.create.CreateUserRegisterRequest;
-import com.etiya.recap.entities.requests.delete.DeleteApplicationUserRequest;
-import com.etiya.recap.entities.requests.update.UpdateApplicationUserRequest;
+import com.etiya.recap.entities.dtos.ApplicationUserDto;
+import com.etiya.recap.entities.requests.applicationUserRequests.CreateUserLoginRequest;
+import com.etiya.recap.entities.requests.applicationUserRequests.CreateUserRegisterRequest;
+import com.etiya.recap.entities.requests.applicationUserRequests.DeleteApplicationUserRequest;
+import com.etiya.recap.entities.requests.applicationUserRequests.UpdateApplicationUserRequest;
 
 public interface ApplicationUserService {
 	
 	
-	DataResult<List<ApplicationUser>> getAll();
+	DataResult<List<ApplicationUserDto>> getAll();
 	
-	DataResult<ApplicationUser> getById(int id);
+	DataResult<ApplicationUserDto> getById(int id);
 	
 	Result delete(DeleteApplicationUserRequest deleteApplicationUserRequest);
 	
 	Result update(UpdateApplicationUserRequest updateApplicationUserRequest);
-	
 	
 	
 	

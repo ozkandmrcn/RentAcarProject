@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.recap.business.abstracts.RentalService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.Rental;
-import com.etiya.recap.entities.requests.create.CreateDeliverTheCar;
-import com.etiya.recap.entities.requests.create.CreateRentalRequest;
-import com.etiya.recap.entities.requests.delete.DeleteRentalRequest;
-import com.etiya.recap.entities.requests.update.UpdateRentalRequest;
+import com.etiya.recap.entities.dtos.RentalDto;
+import com.etiya.recap.entities.requests.rentalRequests.CreateDeliverTheCar;
+import com.etiya.recap.entities.requests.rentalRequests.CreateRentalRequest;
+import com.etiya.recap.entities.requests.rentalRequests.DeleteRentalRequest;
+import com.etiya.recap.entities.requests.rentalRequests.UpdateRentalRequest;
 
 
 @RestController
@@ -46,12 +46,12 @@ public class RentalController {
 	}
 	
 	@GetMapping("/getallrentals")
-	public DataResult<List<Rental>> getAllRentals() {
+	public DataResult<List<RentalDto>> getAllRentals() {
 		return this.rentalService.getAll();
 	}
 	
 	@GetMapping("/getrentalbyid")
-	public  DataResult<Rental> getRentalById(int id) {
+	public  DataResult<RentalDto> getRentalById(int id) {
 		
 		return this.rentalService.getById(id);
 	}

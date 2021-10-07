@@ -1,6 +1,6 @@
 package com.etiya.recap.core.utilities.results;
 
-public class ErrorDataResult<T> extends DataResult<T> {
+public class ErrorDataResult<T>  extends DataResult<T>{
 
 	public ErrorDataResult(T data, String message) {
 		super(data, false,message);

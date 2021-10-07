@@ -16,14 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.recap.business.abstracts.CarService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.Car;
-import com.etiya.recap.entities.concretes.CarImages;
 import com.etiya.recap.entities.dtos.CarDetailDto;
-import com.etiya.recap.entities.dtos.CarDetailWithCarImgDto;
-import com.etiya.recap.entities.requests.create.CreateCarRequest;
-import com.etiya.recap.entities.requests.delete.DeleteCarRequest;
-import com.etiya.recap.entities.requests.update.UpdateCarAvailableRequest;
-import com.etiya.recap.entities.requests.update.UpdateCarRequest;
+import com.etiya.recap.entities.requests.carRequests.CreateCarRequest;
+import com.etiya.recap.entities.requests.carRequests.DeleteCarRequest;
+import com.etiya.recap.entities.requests.carRequests.UpdateCarAvailableRequest;
+import com.etiya.recap.entities.requests.carRequests.UpdateCarRequest;
 
 
 @RestController
@@ -43,40 +40,29 @@ public class CarController {
 	}
 	
 	@GetMapping("/getallcars")
-	public DataResult<List<Car>> getAllCars() {
+	public DataResult<List<CarDetailDto>> getAllCars() {
 		return this.carService.getAll();
 	}
 	
 	@GetMapping("/getallcarsincare")
-	public DataResult<List<Car>> getAllCarsInCare(){
+	public DataResult<List<CarDetailDto>> getAllCarsInCare(){
 		return this.carService.getAllCarsInCare();
 	}
 	
 	@GetMapping("/getallcarsarenotincare")
-	public DataResult<List<Car>> getAllCarsAreNotInCare(){
+	public DataResult<List<CarDetailDto>> getAllCarsAreNotInCare(){
 		return this.carService.getAllCarsNotInCare();
 	}
 	
-	@GetMapping("/getcarsbycityname")
-	public DataResult<List<Car>> getCarsByCityName(String city) {
-		return this.carService.getCarsByCityName(city);
+	@GetMapping("/getcarsbycityıd")
+	public DataResult<List<CarDetailDto>> getCarsByCityId(int cityId) {
+		return this.carService.getCarsByCityId(cityId);
 	}
 	
 	@GetMapping("/getcarbycarid")
-	public  DataResult<Car> getCarByCarId(int id) {
+	public  DataResult<CarDetailDto> getCarByCarId(int id) {
 		return this.carService.getById(id);
 	}
-	
-	@GetMapping("/getallcarswithlessdetail")
-	public DataResult<List<CarDetailDto>> getCarsWithLessDetail() {
-		return this.carService.getAllCarsWithDetail();
-	}
-	
-	@GetMapping("/getcarimagesbycarid")
-	public  DataResult<List<CarImages>> getCarImagesByCarId(int carId) {
-		return this.carService.getCarImagesByCarId(carId);
-	}
-	
 	
 	@DeleteMapping("/removecar")
 	public Result removeCar(DeleteCarRequest deleteCarRequest) {
@@ -88,24 +74,20 @@ public class CarController {
 		return ResponseEntity.ok(this.carService.update(updateCarRequest));
 	}
 	
+	
 	@PostMapping("/updatecarisavailable")
 	public ResponseEntity<?> updateCarIsAvailable(@Valid @RequestBody UpdateCarAvailableRequest updateCarAvailableRequest) {
 		return ResponseEntity.ok(this.carService.updateCarAvailable(updateCarAvailableRequest));
 	}
 
 	@GetMapping("/getcarbybrandid")
-	public  DataResult<List<Car>> getCarByBrandId(int brandId) {
+	public  DataResult<List<CarDetailDto>> getCarByBrandId(int brandId) {
 		return this.carService.getCarByBrandId(brandId);
 	}
 	
 	@GetMapping("/getcarbycolorid")
-	public  DataResult<List<Car>> getCarByColorId(int colorId) {
+	public  DataResult<List<CarDetailDto>> getCarByColorId(int colorId) {
 		return this.carService.getCarByColorId(colorId);
-	}
-	
-	@GetMapping("/getcarlessdetailwithcarimg")
-	public  DataResult<List<CarDetailWithCarImgDto>> getCarLessDetailWithCarImg(int id) {
-		return this.carService.getCarWithCarImgByCarId(id);
 	}
 	
 }

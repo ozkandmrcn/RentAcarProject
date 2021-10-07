@@ -3,12 +3,15 @@ package com.etiya.recap.business.concretes;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.recap.business.abstracts.CreditCardService;
-import com.etiya.recap.business.constants.Messages;
+import com.etiya.recap.business.constants.messages.CreditCardMessages;
+import com.etiya.recap.core.services.posService.PosService;
 import com.etiya.recap.core.utilities.business.BusinessRules;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.ErrorResult;
@@ -18,24 +21,33 @@ import com.etiya.recap.core.utilities.results.SuccessResult;
 import com.etiya.recap.dataAccess.abstracts.CreditCardDao;
 import com.etiya.recap.entities.concretes.ApplicationUser;
 import com.etiya.recap.entities.concretes.CreditCard;
-import com.etiya.recap.entities.requests.create.CreateCreditCardRequest;
-import com.etiya.recap.entities.requests.delete.DeleteCreditCardRequest;
-import com.etiya.recap.entities.requests.update.UpdateCreditCardRequest;
+import com.etiya.recap.entities.concretes.Rental;
+import com.etiya.recap.entities.dtos.CreditCardDetailDto;
+import com.etiya.recap.entities.requests.creditCardRequests.CreateCreditCardRequest;
+import com.etiya.recap.entities.requests.creditCardRequests.CreatePosServiceRequest;
+import com.etiya.recap.entities.requests.creditCardRequests.DeleteCreditCardRequest;
+import com.etiya.recap.entities.requests.creditCardRequests.UpdateCreditCardRequest;
 
 
 @Service
 public class CreditCardManager implements CreditCardService {
 	
 	private CreditCardDao creditCardDao;
+	private PosService posService;
+	private  ModelMapper modelMapper;
 	
 	@Autowired
-	public CreditCardManager(CreditCardDao creditCardDao) {
+	public CreditCardManager(CreditCardDao creditCardDao,PosService posService,ModelMapper modelMapper) {
 		this.creditCardDao = creditCardDao;
+		this.posService = posService;
+		this.modelMapper = modelMapper;
 	}
 
 	@Override
-	public DataResult<List<CreditCard>> getAll() {
-		return new SuccessDataResult<List<CreditCard>>(this.creditCardDao.findAll(), Messages.GetAll);
+	public DataResult<List<CreditCardDetailDto>> getAll() {
+		List<CreditCard> creditCards = this.creditCardDao.findAll();
+		List<CreditCardDetailDto> creditCardDtos = creditCards.stream().map(creditCard -> modelMapper.map(creditCard, CreditCardDetailDto.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<CreditCardDetailDto>>(creditCardDtos, CreditCardMessages.GetAll);
 	}
 
 	@Override
@@ -44,12 +56,8 @@ public class CreditCardManager implements CreditCardService {
 		ApplicationUser applicationUser = new ApplicationUser();
 		applicationUser.setUserId(createCreditCardRequest.getUserId());
 		
-		CreditCard creditCard=new CreditCard();
-		creditCard.setNameOnTheCard(createCreditCardRequest.getNameOnTheCard());
-		creditCard.setCardNumber(createCreditCardRequest.getCardNumber());
-		creditCard.setExpirationDate(createCreditCardRequest.getExpirationDate());
-		creditCard.setCvc(createCreditCardRequest.getCvc());
-		
+		CreditCard creditCard=modelMapper.map(createCreditCardRequest, CreditCard.class);
+	
 		creditCard.setApplicationUser(applicationUser);
 		
 		var result = BusinessRules.run(this.checkCreditCardNumber(creditCard));
@@ -60,22 +68,24 @@ public class CreditCardManager implements CreditCardService {
 
 		
 		this.creditCardDao.save(creditCard);
-     	return new SuccessResult(true, Messages.Add);
+     	return new SuccessResult(true, CreditCardMessages.Add);
 	}
 
 	@Override
-	public DataResult<CreditCard> getById(int id) {
-		return new SuccessDataResult<CreditCard>(this.creditCardDao.getById(id), Messages.GetById);
+	public DataResult<CreditCardDetailDto> getById(int id) {
+		CreditCard creditCard = this.creditCardDao.getById(id);
+		CreditCardDetailDto creditCardDto = modelMapper.map(creditCard, CreditCardDetailDto.class);
+		return new SuccessDataResult<CreditCardDetailDto>(creditCardDto, CreditCardMessages.GetById);
 	}
 
 	@Override
 	public Result delete(DeleteCreditCardRequest deleteCreditCardRequest) {
 		
-		CreditCard creditCard=new CreditCard();
-		creditCard.setId(deleteCreditCardRequest.getId());
+		CreditCard creditCard=modelMapper.map(deleteCreditCardRequest, CreditCard.class);
+		
 		
 		this.creditCardDao.delete(creditCard);
-		return new  SuccessResult(true,Messages.Delete);
+		return new  SuccessResult(true,CreditCardMessages.Delete);
 	}
 
 	@Override
@@ -83,12 +93,7 @@ public class CreditCardManager implements CreditCardService {
 		ApplicationUser applicationUser = new ApplicationUser();
 		applicationUser.setUserId(updateCreditCardRequest.getUserId());
 		
-		CreditCard creditCard=this.creditCardDao.getById(updateCreditCardRequest.getId());
-		creditCard.setId(updateCreditCardRequest.getId());
-		creditCard.setNameOnTheCard(updateCreditCardRequest.getNameOnTheCard());
-		creditCard.setCardNumber(updateCreditCardRequest.getCardNumber());
-		creditCard.setExpirationDate(updateCreditCardRequest.getExpirationDate());
-		creditCard.setCvc(updateCreditCardRequest.getCvc());
+		CreditCard creditCard=modelMapper.map(updateCreditCardRequest, CreditCard.class);
 		
 		creditCard.setApplicationUser(applicationUser);
 		
@@ -99,11 +104,11 @@ public class CreditCardManager implements CreditCardService {
 		}
 		
 		this.creditCardDao.save(creditCard);
-     	return new SuccessResult(true, Messages.Add);
+     	return new SuccessResult(true, CreditCardMessages.Add);
 	}
 	
 	//Kredi kartı kontrolü
-	private Result checkCreditCardNumber(CreditCard creditCard) {
+	public Result checkCreditCardNumber(CreditCard creditCard) {
 		String regex = "^(?:(?<visa>4[0-9]{12}(?:[0-9]{3})?)|" +
 		        "(?<mastercard>5[1-5][0-9]{14})|" +
 		        "(?<discover>6(?:011|5[0-9]{2})[0-9]{12})|" +
@@ -117,9 +122,32 @@ public class CreditCardManager implements CreditCardService {
 		if(matcher.matches()==true) {
 			return new SuccessResult();
 		}else {
-			return new ErrorResult(Messages.ErrorIfCreditCardIsWrong);
+			return new ErrorResult(CreditCardMessages.ErrorIfCreditCardIsWrong);
 		}
 	}
 
+	@Override
+	public Result checkCreditCardLimit(CreditCard creditCard, double rentPrice, Rental rental) {
+	//Kredi Kartı Limit Kontrolü********************************************************
+	CreatePosServiceRequest createPosServiceRequest = new CreatePosServiceRequest();
+	createPosServiceRequest.setCardNumber(creditCard.getCardNumber());
+	createPosServiceRequest.setCvc(creditCard.getCvc());
+	createPosServiceRequest.setExpirationDate(creditCard.getExpirationDate());
+	createPosServiceRequest.setNameOnTheCard(creditCard.getNameOnTheCard());
+	createPosServiceRequest.setFeePayable(rentPrice);
+						
+	//Eğer limit yetersiz ise rent işlemi gerçekleşmeyecek kontrolü
+	if(this.posService.withdraw(createPosServiceRequest) == true)
+	{
+		return new SuccessResult();
+	}
+	else {
+		return new ErrorResult(CreditCardMessages.ErrorMoneyIsNotEnoughToRentACar);
+	}
+	//************************************************************************************
+	}
 
 }
+
+
+

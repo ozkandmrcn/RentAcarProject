@@ -1,12 +1,14 @@
 package com.etiya.recap.business.concretes;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.etiya.recap.business.abstracts.BrandService;
-import com.etiya.recap.business.constants.Messages;
+import com.etiya.recap.business.constants.messages.BrandMessages;
 import com.etiya.recap.core.utilities.business.BusinessRules;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.ErrorResult;
@@ -15,53 +17,60 @@ import com.etiya.recap.core.utilities.results.SuccessDataResult;
 import com.etiya.recap.core.utilities.results.SuccessResult;
 import com.etiya.recap.dataAccess.abstracts.BrandDao;
 import com.etiya.recap.entities.concretes.Brand;
-import com.etiya.recap.entities.requests.create.CreateBrandRequest;
-import com.etiya.recap.entities.requests.delete.DeleteBrandRequest;
-import com.etiya.recap.entities.requests.update.UpdateBrandRequest;
+import com.etiya.recap.entities.dtos.BrandDto;
+import com.etiya.recap.entities.requests.brandRequests.CreateBrandRequest;
+import com.etiya.recap.entities.requests.brandRequests.DeleteBrandRequest;
+import com.etiya.recap.entities.requests.brandRequests.UpdateBrandRequest;
 
 @Service
 public class BrandManager implements BrandService {
 
 	private BrandDao brandDao;
+	private  ModelMapper modelMapper;
 
 	@Autowired
-	public BrandManager(BrandDao brandDao) {
+	public BrandManager(BrandDao brandDao,ModelMapper modelMapper) {
 		this.brandDao = brandDao;
+		this.modelMapper = modelMapper;
 	}
 
 	@Override
-	public DataResult<List<Brand>> getAll() {
-		return new SuccessDataResult<List<Brand>>(this.brandDao.findAll(), Messages.GetAll);
+	public DataResult<List<BrandDto>> getAll() {
+		List<Brand> brands = this.brandDao.findAll();
+		List<BrandDto> brandsDtos = brands.stream().map(brand -> modelMapper.map(brand, BrandDto.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<BrandDto>>(brandsDtos, BrandMessages.GetAll);
 	}
 
 	@Override
 	public Result add(CreateBrandRequest createBrandRequest) {
 
-		Brand brand = new Brand();
-		brand.setBrandName(createBrandRequest.getBrandName());
 
 		var result = BusinessRules.run(checkBrandNameDuplication(createBrandRequest.getBrandName()));
 
 		if (result != null) {
 			return result;
 		}
-
+		
+		Brand brand = modelMapper.map(createBrandRequest, Brand.class);
+		
 		this.brandDao.save(brand);
-		return new SuccessResult(true, Messages.Add);
+		return new SuccessResult(true, BrandMessages.Add);
 	}
 
 	@Override
-	public DataResult<Brand> getById(int id) {
-		return new SuccessDataResult<Brand>(this.brandDao.getById(id), Messages.GetById);
+	public DataResult<BrandDto> getById(int id) {
+		Brand brands = this.brandDao.getById(id);
+		BrandDto brandDto = modelMapper.map(brands, BrandDto.class);
+		return new SuccessDataResult<BrandDto>(brandDto, BrandMessages.GetById);
 	}
 
 	@Override
 	public Result delete(DeleteBrandRequest deleteBrandRequest) {
-		Brand brand = new Brand();
-		brand.setBrandId(deleteBrandRequest.getId());
+		
+		Brand brand = modelMapper.map(deleteBrandRequest,Brand.class);
 
 		this.brandDao.delete(brand);
-		return new SuccessResult(true, Messages.Delete);
+		return new SuccessResult(true, BrandMessages.Delete);
 	}
 
 	@Override
@@ -72,19 +81,17 @@ public class BrandManager implements BrandService {
 		if (result != null) {
 			return result;
 		}
-
-		Brand brand = this.brandDao.getById(updateBrandRequest.getId());
-		brand.setBrandId(updateBrandRequest.getId());
-		brand.setBrandName(updateBrandRequest.getBrandName());
+		
+		Brand brand=modelMapper.map(updateBrandRequest, Brand.class);
 
 		this.brandDao.save(brand);
-		return new SuccessResult(true, Messages.Update);
+		return new SuccessResult(true, BrandMessages.Update);
 
 	}
 
 	private Result checkBrandNameDuplication(String brandName) {
 		if (this.brandDao.existsBrandBybrandName(brandName)) {
-			return new ErrorResult(Messages.ErrorCheckBrandName);
+			return new ErrorResult(BrandMessages.ErrorCheckBrandName);
 		}
 
 		return new SuccessResult();

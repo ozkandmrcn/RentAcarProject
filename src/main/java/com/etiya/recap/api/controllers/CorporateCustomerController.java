@@ -1,7 +1,9 @@
 package com.etiya.recap.api.controllers;
 
 import java.util.List;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,13 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.etiya.recap.business.abstracts.CorporateCustomerService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.CorporateCustomer;
-import com.etiya.recap.entities.requests.create.CreateCorporateCustomerRequest;
-import com.etiya.recap.entities.requests.delete.DeleteCorporateCustomerRequest;
-import com.etiya.recap.entities.requests.update.UpdateCorporateCustomerRequest;
+import com.etiya.recap.entities.dtos.CorporateCustomerDto;
+import com.etiya.recap.entities.requests.corporateCustomerRequests.CreateCorporateCustomerRequest;
+import com.etiya.recap.entities.requests.corporateCustomerRequests.DeleteCorporateCustomerRequest;
+import com.etiya.recap.entities.requests.corporateCustomerRequests.UpdateCorporateCustomerRequest;
 
 @RestController
 @RequestMapping("/api/corporatecustomers")
@@ -35,12 +38,12 @@ public class CorporateCustomerController {
 	}
 
 	@GetMapping("/getallcorporatecustomers")
-	public DataResult<List<CorporateCustomer>> getAllCorporateCustomers() {
+	public DataResult<List<CorporateCustomerDto>> getAllCorporateCustomers() {
 		return this.corporateCustomerService.getAll();
 	}
 	
 	@GetMapping("/getcorporatecustomerbyid")
-	public  DataResult<CorporateCustomer> getCorporateCustomerById(int id) {
+	public  DataResult<CorporateCustomerDto> getCorporateCustomerById(int id) {
 		return this.corporateCustomerService.getById(id);
 	}
 	

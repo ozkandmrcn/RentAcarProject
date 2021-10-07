@@ -8,13 +8,11 @@ import org.springframework.stereotype.Service;
 public class IsPaymentService {
 
 	public boolean withdraw(String nameOnTheCard,String cardNumber,Date expirationDate, String cvc,double feePayable) {
-		double limit = 3000;
+		double limit = 2000;
 		if(limit >= feePayable) {
-			System.out.println("Para yetti");
 			return true;
 		}
 		else {
-			System.out.println("Para yetmedi");
 			return false;
 		}
 	}

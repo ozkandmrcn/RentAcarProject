@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.recap.business.abstracts.CreditCardService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.CreditCard;
-import com.etiya.recap.entities.requests.create.CreateCreditCardRequest;
-import com.etiya.recap.entities.requests.delete.DeleteCreditCardRequest;
-import com.etiya.recap.entities.requests.update.UpdateCreditCardRequest;
+import com.etiya.recap.entities.dtos.CreditCardDetailDto;
+import com.etiya.recap.entities.requests.creditCardRequests.CreateCreditCardRequest;
+import com.etiya.recap.entities.requests.creditCardRequests.DeleteCreditCardRequest;
+import com.etiya.recap.entities.requests.creditCardRequests.UpdateCreditCardRequest;
 
 @RestController
 @RequestMapping("/api/creditcards")
@@ -39,12 +39,12 @@ public class CreditCardController {
 	}
 	
 	@GetMapping("/getallcreditcards")
-	public DataResult<List<CreditCard>> getAllCreditCards(){
+	public DataResult<List<CreditCardDetailDto>> getAllCreditCards(){
 		return this.creditCardService.getAll();
 	}
 	
 	@GetMapping("/getcreditcardbyid")
-	public DataResult<CreditCard> getCreditCardById(int id) {
+	public DataResult<CreditCardDetailDto> getCreditCardById(int id) {
 		return this.creditCardService.getById(id);
 	}
 	

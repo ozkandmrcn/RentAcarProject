@@ -4,16 +4,16 @@ import java.util.List;
 
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.Color;
-import com.etiya.recap.entities.requests.create.CreateColorRequest;
-import com.etiya.recap.entities.requests.delete.DeleteColorRequest;
-import com.etiya.recap.entities.requests.update.UpdateColorRequest;
+import com.etiya.recap.entities.dtos.ColorDto;
+import com.etiya.recap.entities.requests.colorRequests.CreateColorRequest;
+import com.etiya.recap.entities.requests.colorRequests.DeleteColorRequest;
+import com.etiya.recap.entities.requests.colorRequests.UpdateColorRequest;
 
 public interface ColorService {
 	
-	DataResult<List<Color>> getAll();
+	DataResult<List<ColorDto>> getAll();
 	
-	DataResult<Color> getById(int id);
+	DataResult<ColorDto> getById(int id);
 	
 	Result add(CreateColorRequest createColorRequest);
 	

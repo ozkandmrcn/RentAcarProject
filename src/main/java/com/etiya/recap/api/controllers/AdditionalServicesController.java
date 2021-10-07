@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.recap.business.abstracts.AdditionalServicesService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.AdditionalServices;
-import com.etiya.recap.entities.requests.create.CreateAdditionalServicesRequest;
-import com.etiya.recap.entities.requests.delete.DeleteAdditionalServicesRequest;
-import com.etiya.recap.entities.requests.update.UpdateAdditionalServicesRequest;
+import com.etiya.recap.entities.dtos.AdditionalServicesDto;
+import com.etiya.recap.entities.requests.addionalServiceRequests.CreateAdditionalServicesRequest;
+import com.etiya.recap.entities.requests.addionalServiceRequests.DeleteAdditionalServicesRequest;
+import com.etiya.recap.entities.requests.addionalServiceRequests.UpdateAdditionalServicesRequest;
 
 @RestController
 @RequestMapping("/api/additionalservices")
@@ -39,12 +39,12 @@ public class AdditionalServicesController {
 	}
 	
 	@GetMapping("/getalladditionalservices")
-	public DataResult<List<AdditionalServices>> getAllAdditionalService(){
+	public DataResult<List<AdditionalServicesDto>> getAllAdditionalService(){
 		return this.additionalServicesService.getAll();
 	}
 	
 	@GetMapping("/getadditionalservicebyid")
-	public DataResult<AdditionalServices> getAdditionalServiceById(int id) {
+	public DataResult<AdditionalServicesDto> getAdditionalServiceById(int id) {
 		return this.additionalServicesService.getById(id);
 	}
 	

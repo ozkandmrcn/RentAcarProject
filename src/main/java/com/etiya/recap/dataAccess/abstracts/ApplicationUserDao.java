@@ -10,7 +10,12 @@ import com.etiya.recap.entities.concretes.ApplicationUser;
 @Repository
 public interface ApplicationUserDao extends JpaRepository<ApplicationUser, Integer> {
 	
+	
 	@Query("Select u.email From ApplicationUser u ")
 	List<String> getEmails();
+	
+	boolean existsByEmail(String email);
+	
+	boolean existsByPassword(String password);
 	
 }

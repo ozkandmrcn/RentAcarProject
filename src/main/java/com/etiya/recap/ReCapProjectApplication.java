@@ -3,10 +3,13 @@ package com.etiya.recap;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,6 +26,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableSwagger2
 @RestControllerAdvice
+@EnableTransactionManagement
 public class ReCapProjectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ReCapProjectApplication.class, args);
@@ -44,6 +48,13 @@ public class ReCapProjectApplication {
 
 		ErrorDataResult<Object> errors = new ErrorDataResult<Object>(validationErrors, "Doğrulama hataları");
 		return errors;
+	}
+	
+	@Bean
+	public ModelMapper modelMapper() {
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
+		return modelMapper;
 	}
 
 }

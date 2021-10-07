@@ -16,10 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.etiya.recap.business.abstracts.CarImagesService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.CarImages;
-import com.etiya.recap.entities.requests.create.CreateCarImagesRequest;
-import com.etiya.recap.entities.requests.delete.DeleteCarImagesRequest;
-import com.etiya.recap.entities.requests.update.UpdateCarImagesRequest;
+import com.etiya.recap.entities.dtos.CarImageDto;
+import com.etiya.recap.entities.requests.carImageRequests.CreateCarImagesRequest;
+import com.etiya.recap.entities.requests.carImageRequests.DeleteCarImagesRequest;
 
 @RestController
 @RequestMapping("/api/carimages")
@@ -35,35 +34,25 @@ public class CarImagesController {
 	
 	@PostMapping("/addcarimages")
 	public ResponseEntity<?> addCarImages(@RequestParam("carId") int carId, MultipartFile file) throws IOException {
-		
 		CreateCarImagesRequest createCarImagesRequest=new CreateCarImagesRequest();
 		createCarImagesRequest.setCarId(carId);
 		createCarImagesRequest.setFile(file);
-		
 		return ResponseEntity.ok(this.carImagesService.add(createCarImagesRequest));
 	}
 	
 	@GetMapping("/getallcarimages")
-	public  DataResult<List<CarImages>> getAllCarImages() {
+	public  DataResult<List<CarImageDto>> getAllCarImages() {
 		return this.carImagesService.getAll();
 	}
 
-	@GetMapping("/getcarimagesbyid")
-	public  DataResult<List<CarImages>> getCarImagesById(int id) {
-		return this.carImagesService.getById(id);
+	@GetMapping("/getcarimagesbycarid")
+	public  DataResult<List<CarImageDto>> getCarImagesById(int id) {
+		return this.carImagesService.getByCarId(id);
 	}
 	
 	@DeleteMapping("/removecarimages")
 	public Result removeCarImages(DeleteCarImagesRequest deleteCarImagesRequest) {
 		return this.carImagesService.delete(deleteCarImagesRequest);
 	}
-	
-	@PostMapping("/updatecarimages")
-	public ResponseEntity<?> updateCarImages(@RequestParam("carId") int carId, MultipartFile file) throws IOException {
-		UpdateCarImagesRequest updateCarImagesRequest=new UpdateCarImagesRequest();
-		updateCarImagesRequest.setCarId(carId);
-		updateCarImagesRequest.setFile(file);
-		
-		return ResponseEntity.ok(this.carImagesService.update(updateCarImagesRequest));
-	}
+
 }

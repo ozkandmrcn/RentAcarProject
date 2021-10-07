@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.etiya.recap.business.abstracts.BrandService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.Brand;
-import com.etiya.recap.entities.requests.create.CreateBrandRequest;
-import com.etiya.recap.entities.requests.delete.DeleteBrandRequest;
-import com.etiya.recap.entities.requests.update.UpdateBrandRequest;
+import com.etiya.recap.entities.dtos.BrandDto;
+import com.etiya.recap.entities.requests.brandRequests.CreateBrandRequest;
+import com.etiya.recap.entities.requests.brandRequests.DeleteBrandRequest;
+import com.etiya.recap.entities.requests.brandRequests.UpdateBrandRequest;
 
 @RestController
 @RequestMapping("/api/brands")
@@ -39,12 +38,12 @@ public class BrandController {
 	}
 	
 	@GetMapping("/getallbrands")
-	public DataResult<List<Brand>> getAllBrands(){
+	public DataResult<List<BrandDto>> getAllBrands(){
 		return this.brandService.getAll();
 	}
 	
 	@GetMapping("/getbrandbyid")
-	public DataResult<Brand> getBrandById(int id) {
+	public DataResult<BrandDto> getBrandById(int id) {
 		return this.brandService.getById(id);
 	}
 	

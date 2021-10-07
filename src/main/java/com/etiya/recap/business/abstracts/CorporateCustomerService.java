@@ -4,16 +4,16 @@ import java.util.List;
 
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.CorporateCustomer;
-import com.etiya.recap.entities.requests.create.CreateCorporateCustomerRequest;
-import com.etiya.recap.entities.requests.delete.DeleteCorporateCustomerRequest;
-import com.etiya.recap.entities.requests.update.UpdateCorporateCustomerRequest;
+import com.etiya.recap.entities.dtos.CorporateCustomerDto;
+import com.etiya.recap.entities.requests.corporateCustomerRequests.CreateCorporateCustomerRequest;
+import com.etiya.recap.entities.requests.corporateCustomerRequests.DeleteCorporateCustomerRequest;
+import com.etiya.recap.entities.requests.corporateCustomerRequests.UpdateCorporateCustomerRequest;
 
 public interface CorporateCustomerService {
 	
-	DataResult<List<CorporateCustomer>> getAll();
+	DataResult<List<CorporateCustomerDto>> getAll();
 	
-	DataResult<CorporateCustomer> getById(int id);
+	DataResult<CorporateCustomerDto> getById(int id);
 
 	Result add(CreateCorporateCustomerRequest createCorporateCustomerRequest);
 	

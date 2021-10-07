@@ -40,11 +40,13 @@ public class Rental {
 	@Column(name = "return_date")
 	private Date returnDate;
 	
-	@Column(name = "rentalStartingCity")
-	private String rentalStartingCity;
-	
-	@Column(name = "returnCity")
-	private String returnCity;
+	@ManyToOne
+	@JoinColumn(name = "rentalStartingCityId")
+	private City rentalStartingCity;
+
+	@ManyToOne
+	@JoinColumn(name = "returnCityId")
+	private City returnCity;
 	
 	@Column(name = "kilometer")
 	private int kilometer;
@@ -59,9 +61,5 @@ public class Rental {
 	
 	@OneToMany
 	private List<AdditionalServices> additionalServices;
-	
-
-	
-	
 
 }

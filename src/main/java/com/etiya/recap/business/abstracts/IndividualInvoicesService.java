@@ -4,30 +4,28 @@ import java.util.List;
 
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.IndividualInvoices;
-import com.etiya.recap.entities.dtos.IndividualCustomerInvoicesDto;
-import com.etiya.recap.entities.requests.InvoiceBetweenDateRequest;
-import com.etiya.recap.entities.requests.create.CreateInvoicesRequest;
-import com.etiya.recap.entities.requests.delete.DeleteInvoicesRequest;
-import com.etiya.recap.entities.requests.update.UpdateInvoicesRequest;
+import com.etiya.recap.entities.dtos.IndividualCustomerInvoicesExampleDto;
+import com.etiya.recap.entities.dtos.IndividualInvoicesDto;
+import com.etiya.recap.entities.requests.invoiceRequests.CreateInvoiceBetweenDateRequest;
+import com.etiya.recap.entities.requests.invoiceRequests.CreateInvoicesRequest;
+import com.etiya.recap.entities.requests.invoiceRequests.DeleteInvoicesRequest;
 
 public interface IndividualInvoicesService {
 	
-	DataResult<List<IndividualInvoices>> getAll();
+	DataResult<List<IndividualInvoicesDto>> getAll();
 	
 	Result add(CreateInvoicesRequest createInvoicesRequest);
 	
-	DataResult<IndividualInvoices> getById(int id);
+	DataResult<IndividualInvoicesDto> getById(int id);
 	
 	Result delete(DeleteInvoicesRequest deleteInvoicesRequest);
 	
-	Result update(UpdateInvoicesRequest updateInvoicesRequest);
 
-	DataResult<IndividualCustomerInvoicesDto> getIndividualInvoiceDtoByInvoiceId(int invoiceId);
+	DataResult<IndividualCustomerInvoicesExampleDto> getIndividualInvoiceDtoByInvoiceId(int invoiceId);
 	
-	DataResult<List<IndividualInvoices>> getIndividualInvoicesByCustomerId(int customerId);
+	DataResult<List<IndividualInvoicesDto>> getIndividualInvoicesByCustomerId(int customerId);
 	
-	DataResult<List<IndividualInvoices>>getIndividualInvoicesBetweenTwoDate(InvoiceBetweenDateRequest invoiceBetweenDateRequest);
+	DataResult<List<IndividualInvoicesDto>>getIndividualInvoicesBetweenTwoDate(CreateInvoiceBetweenDateRequest createInvoiceBetweenDateRequest);
 
 	
 	

@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.etiya.recap.business.abstracts.CarDamageInformationService;
 import com.etiya.recap.core.utilities.results.DataResult;
 import com.etiya.recap.core.utilities.results.Result;
-import com.etiya.recap.entities.concretes.CarDamageInformation;
-import com.etiya.recap.entities.requests.create.CreateCarDamageInfoRequest;
-import com.etiya.recap.entities.requests.delete.DeleteCarDamageInfoRequest;
-import com.etiya.recap.entities.requests.update.UpdateCarDamageInformationRequest;
+import com.etiya.recap.entities.dtos.CarDamageInformationDto;
+import com.etiya.recap.entities.requests.carDamageInfoRequests.CreateCarDamageInfoRequest;
+import com.etiya.recap.entities.requests.carDamageInfoRequests.DeleteCarDamageInfoRequest;
+import com.etiya.recap.entities.requests.carDamageInfoRequests.UpdateCarDamageInformationRequest;
 
 @RestController
 @RequestMapping("/api/cardamageinfo")
@@ -38,17 +38,17 @@ public class CarDamageInfoController {
 	}
 	
 	@GetMapping("/getallcardamageinfos")
-	public DataResult<List<CarDamageInformation>> getAllCarDamageInfos(){
+	public DataResult<List<CarDamageInformationDto>> getAllCarDamageInfos(){
 		return this.carDamageInformationService.getAll();
 	}
 	
 	@GetMapping("/getcardamageinfobyid")
-	public DataResult<CarDamageInformation> getCarDamageInfoById(int id) {
+	public DataResult<CarDamageInformationDto> getCarDamageInfoById(int id) {
 		return this.carDamageInformationService.getById(id);
 	}
 	
 	@GetMapping("/getcardamageinfobycarid")
-	public DataResult<List<CarDamageInformation>> getCarDamageInfoByCarId(int id) {
+	public DataResult<List<CarDamageInformationDto>> getCarDamageInfoByCarId(int id) {
 		return this.carDamageInformationService.getCarDamageInfoByCarId(id);
 	}
 	
